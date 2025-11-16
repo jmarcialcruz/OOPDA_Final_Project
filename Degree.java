@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 
-public class Degree implements UserFeedback{
-    private String fieldOfStudy;
-    private ArrayList<FinishedCourse> coursework;
+public abstract class Degree implements UserFeedback{
+    protected String fieldOfStudy;
+    protected ArrayList<FinishedCourse> coursework;
 
     Degree(String fieldOfStudy) {
         this.fieldOfStudy = fieldOfStudy;
@@ -24,6 +24,11 @@ public class Degree implements UserFeedback{
     public void addToCoursework(FinishedCourse course) {
         coursework.add(course);
     }
+    
+    // Add more than one course to coursework
+    public void addTocoursework(ArrayList<Course> coursework) {
+        coursework.addAll(coursework);
+    }
 
     public void removeFromCoursework(FinishedCourse course) {
         boolean removed = coursework.remove(course);
@@ -38,5 +43,4 @@ public class Degree implements UserFeedback{
             System.out.println();
         } 
     }
-
 }
