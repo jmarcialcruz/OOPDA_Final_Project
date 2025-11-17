@@ -8,11 +8,18 @@ public class PhysicsCatalog extends Catalog {
 
     public ArrayList<Course> addMajorRequiredCourses() {
         ArrayList<Course> majorRequiredCourses = new ArrayList<>();
-        majorRequiredCourses.add(new Course("PHYS", "00200", "Intro to Mechanics", 4));       
-        majorRequiredCourses.add(new Course("PHYS", "00222", "Intro to Electricity and Magnetism", 4));     
-        majorRequiredCourses.add(new Course("PHYS", "00221", "Intro to Thermodynamics", 4));     
+        majorRequiredCourses.addAll(addMinorRequiredCourses());     
 
         return majorRequiredCourses;
+    }
+
+    public ArrayList<Course> addMinorRequiredCourses() {
+        ArrayList<Course> minorRequiredCourses = new ArrayList<>();
+        minorRequiredCourses.add(new Course("PHYS", "00200", "Intro to Mechanics", 4));       
+        minorRequiredCourses.add(new Course("PHYS", "00222", "Intro to Electricity and Magnetism", 4));     
+        minorRequiredCourses.add(new Course("PHYS", "00221", "Intro to Thermodynamics", 4));     
+        minorRequiredCourses.add(new Course("PHYS", "00300", "Modern Physics", 4));     
+        return minorRequiredCourses;
     }
 
     public ArrayList<Course> addElectiveCourses() {

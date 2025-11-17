@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 
 public class DegreePlan extends Degree {
+    private String advisor;
+    private String advisorEmail;
     private boolean degreeCompletion;
     private double degreeProgress;
     private ArrayList<Course> requiredCoursework;
@@ -10,6 +12,22 @@ public class DegreePlan extends Degree {
         this.degreeProgress = 0.0;
         this.degreeCompletion = false;
         this.requiredCoursework = new ArrayList<>();
+    }
+
+    public String getAdvisor() {
+        return this.advisor;
+    }
+
+    public void setAdvisor(String advisor) {
+        this.advisor = advisor;
+    }
+
+    public String getAdvisorEmail() {
+        return this.advisorEmail;
+    }
+
+    public void setAdvisorEmail(String advisorEmail) {
+        this.advisorEmail = advisorEmail;
     }
 
     public boolean getDegreeCompletion() {
@@ -32,6 +50,10 @@ public class DegreePlan extends Degree {
         requiredCoursework.addAll(coursework);        
     }
 
+    public final void removeRequiredCoursework(Course course) {
+        requiredCoursework.remove(course);        
+    }
+
     @Override 
     public void displayInfo() {
         System.out.println("=== Coursework Required Info ===");
@@ -40,6 +62,9 @@ public class DegreePlan extends Degree {
             course.displayInfo();
             System.out.println();
         } 
+
+        System.out.println();
+        super.displayInfo();
     }
 }
 

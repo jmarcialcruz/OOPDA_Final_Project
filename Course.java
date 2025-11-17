@@ -1,4 +1,4 @@
-public class Course implements UserFeedback {
+public class Course {
     protected String subject;
     protected String id;
     protected String title;

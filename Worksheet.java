@@ -1,10 +1,7 @@
 public class Worksheet implements UserFeedback{
-    private String advisor;
     private String academicStanding;
     private String classStanding;
     private DegreePlan degree;
-    private CompSciCatalog csCatalog;
-    private CompSciDegreePlan csDegreePlan;
     private double degreeProgress;
     private boolean degreeCompletion;
 
@@ -15,13 +12,12 @@ public class Worksheet implements UserFeedback{
         this.degreeCompletion = false;
     }
 
-    public String getAdvisor() {
-        return this.advisor;
-    }
-
     public String getAcademicStanding() {
         if (calculateGPA() > 2.0) {
             academicStanding = "Good Standing";
+        }
+        else if (getCredits() == 0) {
+            academicStanding = "N/A";
         }
         else {
             academicStanding = "Notice";
@@ -32,7 +28,7 @@ public class Worksheet implements UserFeedback{
 
     public String getClassStanding() {
         int totalCredits = 0;
-        for (FinishedCourse course : degree.getCoursework()) {
+        for (FinishedCourse course : degree.getCompletedCoursework()) {
             totalCredits += course.getCredits();
         }
 
@@ -64,7 +60,7 @@ public class Worksheet implements UserFeedback{
         double totalQualityPoints = 0; 
         double totalCredits = 0;
 
-        for(FinishedCourse course : degree.getCoursework()) {
+        for(FinishedCourse course : degree.getCompletedCoursework()) {
             totalQualityPoints += course.getCredits() * getNumericGrade(course.getGrade());
             totalCredits += course.getCredits();
         }
@@ -72,13 +68,24 @@ public class Worksheet implements UserFeedback{
         return totalQualityPoints / totalCredits;
     }
 
+    public int getCredits() {
+        int totalCredits = 0;
+
+        for(FinishedCourse course : degree.getCompletedCoursework()) {
+            totalCredits += course.getCredits();
+        }
+
+        return totalCredits;
+    }
+
     public void displayInfo() {
         System.out.println("=== Worksheet Info ===");
-        System.out.println("Degree:            " + degree.getFieldOfStudy());
-        System.out.println("Cumulative GPA:    " + String.format("%.3f", calculateGPA()));
+        System.out.print("Class Standing:    " + getClassStanding() + "\t\t\t");
+        System.out.println("Degree: " + degree.getFieldOfStudy());
+        System.out.print("Cumulative GPA:    " + String.format("%.3f", calculateGPA()) + "\t\t\t");
         System.out.println("Academic Standing: " + getAcademicStanding());
-        System.out.println("Class Standing:    " + getClassStanding());
         System.out.println("Degree Finished:   " + getDegreeCompletion());
+        System.out.println("Advisor:           " + degree.getAdvisor() + " - " + degree.getAdvisorEmail());
         System.out.println();
         
         getDegree().displayInfo();

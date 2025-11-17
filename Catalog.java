@@ -13,6 +13,7 @@ public abstract class Catalog {
     }
 
     public abstract ArrayList<Course> addMajorRequiredCourses();
+    public abstract ArrayList<Course> addMinorRequiredCourses();
     public abstract ArrayList<Course> addElectiveCourses();
         
     public final void displayAllCourses() {

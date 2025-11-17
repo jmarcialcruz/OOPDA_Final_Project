@@ -6,6 +6,11 @@ public class FinishedCourse extends Course {
         this.grade = grade;
     }
 
+    FinishedCourse (Course course, String grade) {
+        super(course.getSubject(), course.getId(), course.getTitle(), course.getCredits());
+        this.grade = grade;
+    }
+
     @Override
     public void displayInfo() {
         System.out.println("Course:  " + getSubject() + " " + getId()); 
