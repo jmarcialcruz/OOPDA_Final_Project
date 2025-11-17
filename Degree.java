@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 
 public abstract class Degree implements UserFeedback{
-    protected String fieldOfStudy;
-    protected ArrayList<FinishedCourse> coursework;
+    private String fieldOfStudy;
+    private ArrayList<FinishedCourse> coursework;
 
     Degree(String fieldOfStudy) {
         this.fieldOfStudy = fieldOfStudy;
@@ -26,7 +26,7 @@ public abstract class Degree implements UserFeedback{
     }
     
     // Add more than one course to coursework
-    public void addTocoursework(ArrayList<Course> coursework) {
+    public void addToCoursework(ArrayList<Course> coursework) {
         coursework.addAll(coursework);
     }
 
@@ -36,7 +36,7 @@ public abstract class Degree implements UserFeedback{
     }
 
     public void displayInfo() {
-        System.out.println("=== Coursework Info ===");
+        System.out.println("=== Coursework Completed Info ===");
 
         for (FinishedCourse course : coursework) {
             course.displayInfo();

@@ -2,11 +2,14 @@ public class Worksheet implements UserFeedback{
     private String advisor;
     private String academicStanding;
     private String classStanding;
-    private Degree degree;
+    private DegreePlan degree;
+    private CompSciCatalog csCatalog;
+    private CompSciDegreePlan csDegreePlan;
     private double degreeProgress;
     private boolean degreeCompletion;
 
-    Worksheet(Degree degree) {
+    // TODO: Possibly all degree plans to this worksheet and create on worksheet in Degree Works
+    Worksheet(DegreePlan degree) {
         this.degree = degree;
         this.degreeProgress = 0.0;
         this.degreeCompletion = false;

@@ -2,15 +2,11 @@ import java.util.ArrayList;
 
 public class CompSciCatalog extends Catalog {
     CompSciCatalog() {
-        courseCatalog = new ArrayList<>();
+        super();
         addAllCourses();
     }
 
-    protected void addAllCourses() {
-        courseCatalog.addAll(addMajorRequiredCourses());
-    }
-
-    protected ArrayList<Course> addMajorRequiredCourses() {
+    public ArrayList<Course> addMajorRequiredCourses() {
         ArrayList<Course> majorRequiredCourses = new ArrayList<>();
         majorRequiredCourses.add(new Course("CS", "00100", "Computer Science Learning Community", 1));       
         majorRequiredCourses.add(new Course("CS", "04113", "Intro to Object Oriented Programming", 4));       
@@ -27,5 +23,12 @@ public class CompSciCatalog extends Catalog {
         majorRequiredCourses.add(new Course("CS", "04400", "Senior Project", 3));     
 
         return majorRequiredCourses;
+    }
+
+    public ArrayList<Course> addElectiveCourses() {
+        ArrayList<Course> electiveCourses = new ArrayList<>();
+        electiveCourses.add(new Course("CS", "04391", "Parallel and Concurrent Programming", 3));       
+
+        return electiveCourses;
     }
 }

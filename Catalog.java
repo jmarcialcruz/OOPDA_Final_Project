@@ -1,10 +1,20 @@
 import java.util.ArrayList;
 
 public abstract class Catalog {
-    protected ArrayList<Course> courseCatalog;
-    protected abstract void addAllCourses();
-    protected abstract ArrayList<Course> addMajorRequiredCourses();
+    private ArrayList<Course> courseCatalog;
 
+    Catalog() {
+        courseCatalog = new ArrayList<>();
+    }
+
+    protected void addAllCourses() {
+        getCourseCatalog().addAll(addMajorRequiredCourses());
+        getCourseCatalog().addAll(addElectiveCourses());
+    }
+
+    public abstract ArrayList<Course> addMajorRequiredCourses();
+    public abstract ArrayList<Course> addElectiveCourses();
+        
     public final void displayAllCourses() {
         System.out.print("Course:  "); 
         System.out.print("\tCredits: ");
@@ -14,5 +24,11 @@ public abstract class Catalog {
             course.displayInfo();
             System.out.println();
         }
+
+        System.out.println();
     };
+
+    public ArrayList<Course> getCourseCatalog() {
+        return this.courseCatalog;
+    }
 }

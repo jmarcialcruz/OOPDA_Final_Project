@@ -2,15 +2,11 @@ import java.util.ArrayList;
 
 public class MathCatalog extends Catalog {
     MathCatalog() {
-        courseCatalog = new ArrayList<>();
+        super();
         addAllCourses();
     }
 
-    protected void addAllCourses() {
-        courseCatalog.addAll(addMajorRequiredCourses());
-    }
-
-    protected ArrayList<Course> addMajorRequiredCourses() {
+    public ArrayList<Course> addMajorRequiredCourses() {
         ArrayList<Course> majorRequiredCourses = new ArrayList<>();
         majorRequiredCourses.add(new Course("MATH", "01130", "Calculus I", 4));       
         majorRequiredCourses.add(new Course("MATH", "01131", "Calculus II ", 4));     
@@ -21,4 +17,19 @@ public class MathCatalog extends Catalog {
         return majorRequiredCourses;
     }
 
+    public ArrayList<Course> addElectiveCourses() {
+        ArrayList<Course> electiveCourses = new ArrayList<>();
+        electiveCourses.add(new Course("MATH", "01235", "Math for Engineering Analysis", 4));       
+
+        return electiveCourses;
+    }
+
+    public Course getCatalogCourse(String elective) {
+        for (Course course : getCourseCatalog()) {
+            if (elective.equals(course.getSubject() + " " + course.getId())) {
+                return course;
+            }
+        }
+        return null;
+    }
 }
