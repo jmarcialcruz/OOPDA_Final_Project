@@ -1,4 +1,5 @@
-import java.util.ArrayList;
+import java.util.Set;
+import java.util.LinkedHashSet;
 import java.util.Scanner;
 import java.lang.System;
 
@@ -9,7 +10,7 @@ public class DegreeWorks {
         // TODO: prompt user for degree plan then generate worksheet
         CompSciCatalog csCatalog = new CompSciCatalog();
         MathCatalog mathCatalog = new MathCatalog();
-        CompSciDegreePlan csDegree = new CompSciDegreePlan();
+        DegreePlan csDegree = new DegreePlan("Computer Sciencee (BS)");
         Worksheet worksheet = new Worksheet(csDegree);
 
         // csDegree.addRequiredCoursework(csCatalog.getCatalogCourse("CS 00100"));
@@ -19,7 +20,7 @@ public class DegreeWorks {
         csDegree.addRequiredCoursework(mathCatalog.addMinorRequiredCourses());
 
         while(true) {
-            worksheet.displayInfo();
+            worksheet.displayWorksheetInfo();
             System.out.println();
             
             System.out.print("Enter Course ID: ");
@@ -37,7 +38,6 @@ public class DegreeWorks {
                 csDegree.removeRequiredCoursework(mathCatalog.getCatalogCourse(course));
             }
 
-            System.out.println();
         }
 
     }

@@ -1,4 +1,5 @@
-import java.util.ArrayList;
+import java.util.Set;
+import java.util.LinkedHashSet;
 
 public class EceCatalog extends Catalog {
     EceCatalog() {
@@ -6,8 +7,8 @@ public class EceCatalog extends Catalog {
         addAllCourses();
     }
 
-    public ArrayList<Course> addMajorRequiredCourses() {
-        ArrayList<Course> majorRequiredCourses = new ArrayList<>();
+    public LinkedHashSet<Course> addMajorRequiredCourses() {
+        LinkedHashSet<Course> majorRequiredCourses = new LinkedHashSet<>();
         majorRequiredCourses.addAll(addMinorRequiredCourses());     
         majorRequiredCourses.add(new Course("ECE", "09243", "Computer Architecture", 3));     
         majorRequiredCourses.add(new Course("ECE", "09342", "Intro to Embedded Systems", 3));     
@@ -21,8 +22,8 @@ public class EceCatalog extends Catalog {
         return majorRequiredCourses;
     }
 
-    public ArrayList<Course> addMinorRequiredCourses() {
-        ArrayList<Course> minorRequiredCourses = new ArrayList<>();
+    public LinkedHashSet<Course> addMinorRequiredCourses() {
+        LinkedHashSet<Course> minorRequiredCourses = new LinkedHashSet<>();
         minorRequiredCourses.add(new Course("ECE", "09101", "Intro to Electrical and Computer Engineering", 2));     
         minorRequiredCourses.add(new Course("ECE", "09241", "Intro to Digital Systems", 2));     
         minorRequiredCourses.add(new Course("ECE", "09203", "Principles of Circuit Analysis", 4));     
@@ -31,8 +32,8 @@ public class EceCatalog extends Catalog {
         return minorRequiredCourses;
     }
 
-    public ArrayList<Course> addElectiveCourses() {
-        ArrayList<Course> electiveCourses = new ArrayList<>();
+    public LinkedHashSet<Course> addElectiveCourses() {
+        LinkedHashSet<Course> electiveCourses = new LinkedHashSet<>();
         electiveCourses.add(new Course("ECE", "09456", "Embedded Software Design", 3));     
         return electiveCourses;
     }

@@ -1,17 +1,20 @@
-import java.util.ArrayList;
+import java.util.Set;
+import java.util.LinkedHashSet;
 
 public class DegreePlan extends Degree {
     private String advisor;
     private String advisorEmail;
     private boolean degreeCompletion;
     private double degreeProgress;
-    private ArrayList<Course> requiredCoursework;
+    private LinkedHashSet<Course> requiredCoursework;
 
     DegreePlan(String fieldOfStudy) {
         super(fieldOfStudy);
         this.degreeProgress = 0.0;
         this.degreeCompletion = false;
-        this.requiredCoursework = new ArrayList<>();
+        this.requiredCoursework = new LinkedHashSet<>();
+        setAdvisor("Graves,Jaclyn");
+        setAdvisorEmail("gravesj@rowan.edu");
     }
 
     public String getAdvisor() {
@@ -38,7 +41,7 @@ public class DegreePlan extends Degree {
         return this.degreeProgress;
     }
 
-    public final ArrayList<Course> getRequiredCoursework() {
+    public final LinkedHashSet<Course> getRequiredCoursework() {
         return this.requiredCoursework;
     }
 
@@ -46,7 +49,7 @@ public class DegreePlan extends Degree {
         requiredCoursework.add(course);        
     }
 
-    public final void addRequiredCoursework(ArrayList<Course> coursework) {
+    public final void addRequiredCoursework(LinkedHashSet<Course> coursework) {
         requiredCoursework.addAll(coursework);        
     }
 
@@ -54,17 +57,16 @@ public class DegreePlan extends Degree {
         requiredCoursework.remove(course);        
     }
 
-    @Override 
     public void displayInfo() {
         System.out.println("=== Coursework Required Info ===");
 
         for (Course course : requiredCoursework) {
-            course.displayInfo();
+            course.displaySelectionInfo();
             System.out.println();
         } 
 
         System.out.println();
-        super.displayInfo();
+        super.displayDegreeInfo();
     }
 }
 

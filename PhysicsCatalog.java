@@ -1,4 +1,5 @@
-import java.util.ArrayList;
+import java.util.Set;
+import java.util.LinkedHashSet;
 
 public class PhysicsCatalog extends Catalog {
     PhysicsCatalog() {
@@ -6,15 +7,15 @@ public class PhysicsCatalog extends Catalog {
         addAllCourses();
     }
 
-    public ArrayList<Course> addMajorRequiredCourses() {
-        ArrayList<Course> majorRequiredCourses = new ArrayList<>();
+    public LinkedHashSet<Course> addMajorRequiredCourses() {
+        LinkedHashSet<Course> majorRequiredCourses = new LinkedHashSet<>();
         majorRequiredCourses.addAll(addMinorRequiredCourses());     
 
         return majorRequiredCourses;
     }
 
-    public ArrayList<Course> addMinorRequiredCourses() {
-        ArrayList<Course> minorRequiredCourses = new ArrayList<>();
+    public LinkedHashSet<Course> addMinorRequiredCourses() {
+        LinkedHashSet<Course> minorRequiredCourses = new LinkedHashSet<>();
         minorRequiredCourses.add(new Course("PHYS", "00200", "Intro to Mechanics", 4));       
         minorRequiredCourses.add(new Course("PHYS", "00222", "Intro to Electricity and Magnetism", 4));     
         minorRequiredCourses.add(new Course("PHYS", "00221", "Intro to Thermodynamics", 4));     
@@ -22,8 +23,8 @@ public class PhysicsCatalog extends Catalog {
         return minorRequiredCourses;
     }
 
-    public ArrayList<Course> addElectiveCourses() {
-        ArrayList<Course> electiveCourses = new ArrayList<>();
+    public LinkedHashSet<Course> addElectiveCourses() {
+        LinkedHashSet<Course> electiveCourses = new LinkedHashSet<>();
         electiveCourses.add(new Course("PHYS", "00000", "Place Holder", 4));     
         return electiveCourses;
     }

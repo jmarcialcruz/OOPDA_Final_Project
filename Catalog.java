@@ -1,10 +1,11 @@
-import java.util.ArrayList;
+import java.util.Set;
+import java.util.LinkedHashSet;
 
 public abstract class Catalog {
-    private ArrayList<Course> courseCatalog;
+    private LinkedHashSet<Course> courseCatalog;
 
     Catalog() {
-        courseCatalog = new ArrayList<>();
+        courseCatalog = new LinkedHashSet<>();
     }
 
     protected void addAllCourses() {
@@ -12,9 +13,9 @@ public abstract class Catalog {
         getCourseCatalog().addAll(addElectiveCourses());
     }
 
-    public abstract ArrayList<Course> addMajorRequiredCourses();
-    public abstract ArrayList<Course> addMinorRequiredCourses();
-    public abstract ArrayList<Course> addElectiveCourses();
+    public abstract LinkedHashSet<Course> addMajorRequiredCourses();
+    public abstract LinkedHashSet<Course> addMinorRequiredCourses();
+    public abstract LinkedHashSet<Course> addElectiveCourses();
         
     public final void displayAllCourses() {
         System.out.print("Course:  "); 
@@ -22,14 +23,14 @@ public abstract class Catalog {
         System.out.println("\tTitle:   ");
 
         for (Course course : courseCatalog) {
-            course.displayInfo();
+            course.displaySelectionInfo();
             System.out.println();
         }
 
         System.out.println();
     };
 
-    public ArrayList<Course> getCourseCatalog() {
+    public LinkedHashSet<Course> getCourseCatalog() {
         return this.courseCatalog;
     }
 }

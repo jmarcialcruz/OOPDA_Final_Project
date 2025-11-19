@@ -1,13 +1,13 @@
-public class Worksheet implements UserFeedback{
+public class Worksheet {
     private String academicStanding;
     private String classStanding;
-    private DegreePlan degree;
+    private DegreePlan degreePlan;
     private double degreeProgress;
     private boolean degreeCompletion;
 
     // TODO: Possibly all degree plans to this worksheet and create on worksheet in Degree Works
-    Worksheet(DegreePlan degree) {
-        this.degree = degree;
+    Worksheet(DegreePlan degreePlan) {
+        this.degreePlan = degreePlan;
         this.degreeProgress = 0.0;
         this.degreeCompletion = false;
     }
@@ -28,7 +28,7 @@ public class Worksheet implements UserFeedback{
 
     public String getClassStanding() {
         int totalCredits = 0;
-        for (FinishedCourse course : degree.getCompletedCoursework()) {
+        for (Course course : degreePlan.getCompletedCoursework()) {
             totalCredits += course.getCredits();
         }
 
@@ -48,8 +48,8 @@ public class Worksheet implements UserFeedback{
         return classStanding;
     }
 
-    public Degree getDegree() {
-        return this.degree;
+    public DegreePlan getDegreePlan() {
+        return this.degreePlan;
     }
 
     public boolean getDegreeCompletion() {
@@ -60,7 +60,7 @@ public class Worksheet implements UserFeedback{
         double totalQualityPoints = 0; 
         double totalCredits = 0;
 
-        for(FinishedCourse course : degree.getCompletedCoursework()) {
+        for(Course course : degreePlan.getCompletedCoursework()) {
             totalQualityPoints += course.getCredits() * getNumericGrade(course.getGrade());
             totalCredits += course.getCredits();
         }
@@ -71,24 +71,24 @@ public class Worksheet implements UserFeedback{
     public int getCredits() {
         int totalCredits = 0;
 
-        for(FinishedCourse course : degree.getCompletedCoursework()) {
+        for(Course course : degreePlan.getCompletedCoursework()) {
             totalCredits += course.getCredits();
         }
 
         return totalCredits;
     }
 
-    public void displayInfo() {
+    public void displayWorksheetInfo() {
         System.out.println("=== Worksheet Info ===");
         System.out.print("Class Standing:    " + getClassStanding() + "\t\t\t");
-        System.out.println("Degree: " + degree.getFieldOfStudy());
+        System.out.println("Degree: " + degreePlan.getFieldOfStudy());
         System.out.print("Cumulative GPA:    " + String.format("%.3f", calculateGPA()) + "\t\t\t");
         System.out.println("Academic Standing: " + getAcademicStanding());
-        System.out.println("Degree Finished:   " + getDegreeCompletion());
-        System.out.println("Advisor:           " + degree.getAdvisor() + " - " + degree.getAdvisorEmail());
+        System.out.println("Degree : " + getDegreeCompletion());
+        System.out.println("Advisor: " + degreePlan.getAdvisor() + " - " + degreePlan.getAdvisorEmail());
         System.out.println();
         
-        getDegree().displayInfo();
+        getDegreePlan().displayInfo();
     }
 
     public double getNumericGrade(String letterGrade) {

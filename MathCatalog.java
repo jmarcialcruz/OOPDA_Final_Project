@@ -1,4 +1,5 @@
-import java.util.ArrayList;
+import java.util.Set;
+import java.util.LinkedHashSet;
 
 public class MathCatalog extends Catalog {
     MathCatalog() {
@@ -6,8 +7,8 @@ public class MathCatalog extends Catalog {
         addAllCourses();
     }
 
-    public ArrayList<Course> addMajorRequiredCourses() {
-        ArrayList<Course> majorRequiredCourses = new ArrayList<>();
+    public LinkedHashSet<Course> addMajorRequiredCourses() {
+        LinkedHashSet<Course> majorRequiredCourses = new LinkedHashSet<>();
         majorRequiredCourses.addAll(addMinorRequiredCourses());     
         majorRequiredCourses.add(new Course("MATH", "03150", "Discrete Mathematics", 4));     
         majorRequiredCourses.add(new Course("MATH", "01231", "Ordinary Differential Equations", 4));     
@@ -15,8 +16,8 @@ public class MathCatalog extends Catalog {
         return majorRequiredCourses;
     }
 
-    public ArrayList<Course> addMinorRequiredCourses() {
-        ArrayList<Course> minorRequiredCourses = new ArrayList<>();
+    public LinkedHashSet<Course> addMinorRequiredCourses() {
+        LinkedHashSet<Course> minorRequiredCourses = new LinkedHashSet<>();
         minorRequiredCourses.add(new Course("MATH", "01130", "Calculus I", 4));       
         minorRequiredCourses.add(new Course("MATH", "01131", "Calculus II ", 4));     
         minorRequiredCourses.add(new Course("MATH", "01230", "Calculus III ", 4));     
@@ -25,8 +26,8 @@ public class MathCatalog extends Catalog {
         return minorRequiredCourses;
     }
     
-    public ArrayList<Course> addElectiveCourses() {
-        ArrayList<Course> electiveCourses = new ArrayList<>();
+    public LinkedHashSet<Course> addElectiveCourses() {
+        LinkedHashSet<Course> electiveCourses = new LinkedHashSet<>();
         electiveCourses.add(new Course("MATH", "01235", "Math for Engineering Analysis", 4));       
 
         return electiveCourses;

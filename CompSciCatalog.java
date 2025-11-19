@@ -1,4 +1,5 @@
-import java.util.ArrayList;
+import java.util.Set;
+import java.util.LinkedHashSet;
 
 public class CompSciCatalog extends Catalog {
     CompSciCatalog() {
@@ -6,8 +7,8 @@ public class CompSciCatalog extends Catalog {
         addAllCourses();
     }
 
-    public ArrayList<Course> addMajorRequiredCourses() {
-        ArrayList<Course> majorRequiredCourses = new ArrayList<>();
+    public LinkedHashSet<Course> addMajorRequiredCourses() {
+        LinkedHashSet<Course> majorRequiredCourses = new LinkedHashSet<>();
         majorRequiredCourses.addAll(addMinorRequiredCourses());     
         majorRequiredCourses.add(new Course("CS", "00100", "Computer Science Learning Community", 1));       
         majorRequiredCourses.add(new Course("CS", "07210", "Foundation of Computer Science ", 3));     
@@ -21,8 +22,8 @@ public class CompSciCatalog extends Catalog {
         return majorRequiredCourses;
     }
 
-    public ArrayList<Course> addMinorRequiredCourses() {
-        ArrayList<Course> minorRequiredCourses = new ArrayList<>();
+    public LinkedHashSet<Course> addMinorRequiredCourses() {
+        LinkedHashSet<Course> minorRequiredCourses = new LinkedHashSet<>();
         minorRequiredCourses.add(new Course("CS", "04113", "Intro to Object Oriented Programming", 4));       
         minorRequiredCourses.add(new Course("CS", "04114", "Object Oriented Programming and Data Abstraction", 3));     
         minorRequiredCourses.add(new Course("CS", "04215", "Computer Lab Techniques", 3));     
@@ -30,11 +31,10 @@ public class CompSciCatalog extends Catalog {
         minorRequiredCourses.add(new Course("CS", "06205", "Computer Organization", 3));     
 
         return minorRequiredCourses;
-
     }
 
-    public ArrayList<Course> addElectiveCourses() {
-        ArrayList<Course> electiveCourses = new ArrayList<>();
+    public LinkedHashSet<Course> addElectiveCourses() {
+        LinkedHashSet<Course> electiveCourses = new LinkedHashSet<>();
         electiveCourses.add(new Course("CS", "04391", "Parallel and Concurrent Programming", 3));       
 
         return electiveCourses;
@@ -46,6 +46,7 @@ public class CompSciCatalog extends Catalog {
                 return course;
             }
         }
+        System.out.println("Course not found");
         return null;
     }
 }
