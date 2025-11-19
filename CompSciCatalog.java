@@ -40,13 +40,4 @@ public class CompSciCatalog extends Catalog {
         return electiveCourses;
     }
 
-    public Course getCatalogCourse(String elective) {
-        for (Course course : getCourseCatalog()) {
-            if (elective.equals(course.getSubject() + " " + course.getId())) {
-                return course;
-            }
-        }
-        System.out.println("Course not found");
-        return null;
-    }
 }

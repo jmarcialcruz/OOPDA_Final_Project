@@ -48,6 +48,7 @@ public abstract class Degree {
 
         if (coursework.isEmpty()) {
             System.out.println("No coursework was completed");
+            System.out.println();
         }
         else {
             for (Course course : coursework) {

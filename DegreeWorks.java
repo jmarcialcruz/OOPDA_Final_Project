@@ -13,15 +13,14 @@ public class DegreeWorks {
         DegreePlan csDegree = new DegreePlan("Computer Sciencee (BS)");
         Worksheet worksheet = new Worksheet(csDegree);
 
-        // csDegree.addRequiredCoursework(csCatalog.getCatalogCourse("CS 00100"));
+        // worksheet.getDegreePlan().addRequiredCoursework(csCatalog.getCatalogCourse("CS 00100"));
         
-        csDegree.addRequiredCoursework(csCatalog.addMajorRequiredCourses());
+        worksheet.getDegreePlan().addRequiredCoursework(csCatalog.addMajorRequiredCourses());
 
-        csDegree.addRequiredCoursework(mathCatalog.addMinorRequiredCourses());
+        worksheet.getDegreePlan().addRequiredCoursework(mathCatalog.addMinorRequiredCourses());
 
         while(true) {
             worksheet.displayWorksheetInfo();
-            System.out.println();
             
             System.out.print("Enter Course ID: ");
             String course = userInput.nextLine();
@@ -30,13 +29,15 @@ public class DegreeWorks {
             String grade = userInput.nextLine();
 
             if (course.substring(0,2).equals("CS")) {
-                csDegree.addToCompletedCoursework(csCatalog.getCatalogCourse(course), grade);
-                csDegree.removeRequiredCoursework(csCatalog.getCatalogCourse(course));
+                worksheet.getDegreePlan().addToCompletedCoursework(csCatalog.getCatalogCourse(course), grade);
+                worksheet.getDegreePlan().removeRequiredCoursework(csCatalog.getCatalogCourse(course));
             }
             else if (course.substring(0,4).equals("MATH")) {
-                csDegree.addToCompletedCoursework(mathCatalog.getCatalogCourse(course), grade);
-                csDegree.removeRequiredCoursework(mathCatalog.getCatalogCourse(course));
+                worksheet.getDegreePlan().addToCompletedCoursework(mathCatalog.getCatalogCourse(course), grade);
+                worksheet.getDegreePlan().removeRequiredCoursework(mathCatalog.getCatalogCourse(course));
             }
+
+            System.out.println();
 
         }
 

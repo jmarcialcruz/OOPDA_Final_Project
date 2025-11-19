@@ -14,13 +14,13 @@ public class Worksheet {
 
     public String getAcademicStanding() {
         if (calculateGPA() > 2.0) {
-            academicStanding = "Good Standing";
+            academicStanding = "GOOD STANDING";
         }
         else if (getCredits() == 0) {
             academicStanding = "N/A";
         }
         else {
-            academicStanding = "Notice";
+            academicStanding = "NOTICE";
         }
 
         return this.academicStanding;
@@ -82,10 +82,10 @@ public class Worksheet {
         System.out.println("=== Worksheet Info ===");
         System.out.print("Class Standing:    " + getClassStanding() + "\t\t\t");
         System.out.println("Degree: " + degreePlan.getFieldOfStudy());
-        System.out.print("Cumulative GPA:    " + String.format("%.3f", calculateGPA()) + "\t\t\t");
+        System.out.print("Cumulative GPA:    " + String.format("%.3f", calculateGPA()) + "  \t\t\t");
         System.out.println("Academic Standing: " + getAcademicStanding());
-        System.out.println("Degree : " + getDegreeCompletion());
-        System.out.println("Advisor: " + degreePlan.getAdvisor() + " - " + degreePlan.getAdvisorEmail());
+        System.out.println("Degree :\t   " + getDegreeCompletion());
+        System.out.println("Advisor:\t   " + degreePlan.getAdvisor() + " - " + degreePlan.getAdvisorEmail());
         System.out.println();
         
         getDegreePlan().displayInfo();

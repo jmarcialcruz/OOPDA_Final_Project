@@ -59,6 +59,9 @@ public class DegreePlan extends Degree {
 
     public void displayInfo() {
         System.out.println("=== Coursework Required Info ===");
+        System.out.print("Course:  "); 
+        System.out.print("\tCredits: ");
+        System.out.println("\tTitle:   ");
 
         for (Course course : requiredCoursework) {
             course.displaySelectionInfo();
