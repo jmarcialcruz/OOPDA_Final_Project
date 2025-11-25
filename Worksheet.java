@@ -3,13 +3,13 @@ public class Worksheet {
     private String classStanding;
     private DegreePlan degreePlan;
     private double degreeProgress;
-    private boolean degreeCompletion;
+    private int degreeCreditsReq;
 
     // TODO: Possibly all degree plans to this worksheet and create on worksheet in Degree Works
-    Worksheet(DegreePlan degreePlan) {
+    Worksheet(DegreePlan degreePlan, int creditReq) {
         this.degreePlan = degreePlan;
         this.degreeProgress = 0.0;
-        this.degreeCompletion = false;
+        this.degreeCreditsReq = creditReq;
     }
 
     public String getAcademicStanding() {
@@ -26,11 +26,17 @@ public class Worksheet {
         return this.academicStanding;
     }
 
-    public String getClassStanding() {
+    public int getTotalCredits() {
         int totalCredits = 0;
         for (Course course : degreePlan.getCompletedCoursework()) {
             totalCredits += course.getCredits();
         }
+
+        return totalCredits;
+    }
+
+    public String getClassStanding() {
+        int totalCredits = getTotalCredits();
 
         if (totalCredits > 90) {
             classStanding = "Senior";
@@ -53,7 +59,13 @@ public class Worksheet {
     }
 
     public boolean getDegreeCompletion() {
-        return this.degreeCompletion;
+        int totalCredits = getTotalCredits();
+        if (totalCredits < degreeCreditsReq){
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 
     public double calculateGPA() {
@@ -84,11 +96,12 @@ public class Worksheet {
         System.out.println("Degree: " + degreePlan.getFieldOfStudy());
         System.out.print("Cumulative GPA:    " + String.format("%.3f", calculateGPA()) + "  \t\t\t");
         System.out.println("Academic Standing: " + getAcademicStanding());
-        System.out.println("Degree :\t   " + getDegreeCompletion());
+        System.out.print("Degree Completed:  " + getDegreeCompletion() + " \t\t\t");
+        System.out.println("Total Credits: " + getTotalCredits());
         System.out.println("Advisor:\t   " + degreePlan.getAdvisor() + " - " + degreePlan.getAdvisorEmail());
         System.out.println();
         
-        getDegreePlan().displayInfo();
+        getDegreePlan().displayPlanInfo();
     }
 
     public double getNumericGrade(String letterGrade) {

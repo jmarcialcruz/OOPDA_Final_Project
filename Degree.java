@@ -23,12 +23,15 @@ public abstract class Degree {
     }
 
     public void addToCompletedCoursework(Course course) {
+        for (Course completedCourse : coursework) {
+
+        }
         coursework.add(course);
     }
     
     public void addToCompletedCoursework(Course course, String grade) {
-        Course completedCourse = new Course(course, grade);
-        coursework.add(completedCourse);
+        course.setGrade(grade);
+        coursework.add(course);
     }
 
     // Add more than one course to coursework

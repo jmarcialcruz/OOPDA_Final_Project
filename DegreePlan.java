@@ -57,7 +57,7 @@ public class DegreePlan extends Degree {
         requiredCoursework.remove(course);        
     }
 
-    public void displayInfo() {
+    public void displayPlanInfo() {
         System.out.println("=== Coursework Required Info ===");
         System.out.print("Course:  "); 
         System.out.print("\tCredits: ");
