@@ -1,5 +1,4 @@
 import java.util.Set;
-import java.util.LinkedHashSet;
 
 public interface Catalog {
     public void displayAllCourses();
@@ -10,5 +9,5 @@ public interface Catalog {
         System.out.println("\tTitle:   ");
     }
 
-    // public LinkedHashSet<Course> getCourseCatalog();
+    // public static Set<Course> addAllCourses();
 }

@@ -3,7 +3,7 @@ import java.util.LinkedHashSet;
 
 public abstract class Degree {
     private String fieldOfStudy;
-    private LinkedHashSet<Course> coursework;
+    private Set<Course> coursework;
 
     Degree(String fieldOfStudy) {
         this.fieldOfStudy = fieldOfStudy;
@@ -14,7 +14,7 @@ public abstract class Degree {
         return this.fieldOfStudy;
     }
 
-    public LinkedHashSet<Course> getCompletedCoursework() {
+    public Set<Course> getCompletedCoursework() {
         return this.coursework;
     }
 
@@ -35,7 +35,7 @@ public abstract class Degree {
     }
 
     // Add more than one course to coursework
-    public void addToCompletedCoursework(LinkedHashSet<Course> coursework) {
+    public void addToCompletedCoursework(Set<Course> coursework) {
         for (Course course : coursework) {
             coursework.add(course);
         }

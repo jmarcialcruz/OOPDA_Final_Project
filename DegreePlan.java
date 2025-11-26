@@ -6,7 +6,7 @@ public class DegreePlan extends Degree {
     private String advisorEmail;
     private boolean degreeCompletion;
     private double degreeProgress;
-    private LinkedHashSet<Course> requiredCoursework;
+    private Set<Course> requiredCoursework;
 
     DegreePlan(String fieldOfStudy) {
         super(fieldOfStudy);
@@ -41,7 +41,7 @@ public class DegreePlan extends Degree {
         return this.degreeProgress;
     }
 
-    public final LinkedHashSet<Course> getRequiredCoursework() {
+    public final Set<Course> getRequiredCoursework() {
         return this.requiredCoursework;
     }
 
@@ -49,11 +49,11 @@ public class DegreePlan extends Degree {
         requiredCoursework.add(course);        
     }
 
-    public final void addRequiredCoursework(LinkedHashSet<Course> coursework) {
+    public final void addRequiredCoursework(Set<Course> coursework) {
         requiredCoursework.addAll(coursework);        
     }
 
-    public final void removeRequiredCoursework(Course course) {
+    public final void removeFromRequiredCoursework(Course course) {
         requiredCoursework.remove(course);        
     }
 

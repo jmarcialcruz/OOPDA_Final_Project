@@ -3,8 +3,8 @@ import java.util.LinkedHashSet;
 
 public abstract class CompSciCatalog implements Catalog {
 
-    public static LinkedHashSet<Course> addMajorRequiredCourses() {
-        LinkedHashSet<Course> majorRequiredCourses = new LinkedHashSet<>();
+    public static Set<Course> addMajorRequiredCourses() {
+        Set<Course> majorRequiredCourses = new LinkedHashSet<>();
         majorRequiredCourses.addAll(addMinorRequiredCourses());     
         majorRequiredCourses.add(new Course("CS", "00100", "Computer Science Learning Community", 1, "R"));       
         majorRequiredCourses.add(new Course("CS", "07210", "Foundation of Computer Science ", 3, "R"));     
@@ -18,8 +18,8 @@ public abstract class CompSciCatalog implements Catalog {
         return majorRequiredCourses;
     }
 
-    public static LinkedHashSet<Course> addMinorRequiredCourses() {
-        LinkedHashSet<Course> minorRequiredCourses = new LinkedHashSet<>();
+    public static Set<Course> addMinorRequiredCourses() {
+        Set<Course> minorRequiredCourses = new LinkedHashSet<>();
         minorRequiredCourses.add(new Course("CS", "04113", "Intro to Object Oriented Programming", 4, "R"));       
         minorRequiredCourses.add(new Course("CS", "04114", "Object Oriented Programming and Data Abstraction", 3, "R"));     
         minorRequiredCourses.add(new Course("CS", "04215", "Computer Lab Techniques", 3, "R"));     
@@ -29,18 +29,24 @@ public abstract class CompSciCatalog implements Catalog {
         return minorRequiredCourses;
     }
 
-    public static LinkedHashSet<Course> addElectiveCourses() {
-        LinkedHashSet<Course> electiveCourses = new LinkedHashSet<>();
+    public static Set<Course> addElectiveCourses() {
+        Set<Course> electiveCourses = new LinkedHashSet<>();
         electiveCourses.add(new Course("CS", "04391", "Parallel and Concurrent Programming", 3, "R")); 
 
         return electiveCourses;
     }
 
-    public static Course getCatalogCourse(String elective) {
-        Set<Course> lookupCourse = new LinkedHashSet<>();
-        lookupCourse.addAll(addMajorRequiredCourses());
+    public static boolean checkCatalogForCourse(String courseName) {
+        for (Course course : addMajorRequiredCourses()) {
+            if (courseName.equals(course.getSubject() + " " + course.getId())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-        for (Course course : lookupCourse) {
+    public static Course getCatalogCourse(String elective) {
+        for (Course course : addMajorRequiredCourses()) {
             String courseTitle = course.getSubject() + " " + course.getId();
             
             if (elective.equals(courseTitle)) {
@@ -50,5 +56,4 @@ public abstract class CompSciCatalog implements Catalog {
 
         return null;
     }
-
 }
