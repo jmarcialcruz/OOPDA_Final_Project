@@ -1,18 +1,43 @@
 import java.util.Set;
-import java.util.LinkedHashSet;
 import java.util.Scanner;
 import java.lang.System;
+import java.util.InputMismatchException;
 
 public class DegreeWorks {
     public static void main(String[] args) {
         Scanner userInput = new Scanner(System.in);
 
-        // TODO: prompt user for degree plan then generate worksheet
-        DegreePlan csDegree = new DegreePlan("Computer Sciencee (BS)");
-        Worksheet worksheet = new Worksheet(csDegree, 120);
+        DegreePlan degree; 
+        Worksheet worksheet;
         
-        worksheet.getDegreePlan().addRequiredCoursework(CompSciCatalog.addMajorRequiredCourses());
-        worksheet.getDegreePlan().addRequiredCoursework(MathCatalog.addMinorRequiredCourses());
+        while(true) {
+            try {
+                System.out.println("1. Computer Science");
+                System.out.print("Choose a degree plan: ");
+                int selection = userInput.nextInt();
+
+                if (selection == 1) {
+                    degree = new DegreePlan("Computer Sciencee (BS)");
+                    worksheet = new Worksheet(degree, 120);
+                    worksheet.getDegreePlan().addRequiredCoursework(CompSciCatalog.addMajorRequiredCourses());
+                    worksheet.getDegreePlan().addRequiredCoursework(MathCatalog.addMinorRequiredCourses());
+                    System.out.println();
+                    userInput.nextLine();
+                    break;
+                }
+                else {
+                    System.out.println("Incorrect Selection!");
+                    System.out.println();
+                    continue;
+                }
+            }
+            catch (InputMismatchException e) {
+                    System.out.println("Invalid input. Please enter a whole number.");
+                    System.out.println();
+                    userInput.next();
+                    continue;
+            }
+        }
 
         while(true) {
             worksheet.displayWorksheetInfo();
@@ -37,6 +62,9 @@ public class DegreeWorks {
                 System.out.println();
                 continue;
             }
+            
+            // Accepts lower and uppercase
+            course = course.toUpperCase();
 
             if (course.substring(0,3).equals("CS ")) {
                 if (CompSciCatalog.checkCatalogForCourse(course)) {
@@ -44,9 +72,7 @@ public class DegreeWorks {
                     worksheet.getDegreePlan().removeFromRequiredCoursework(CompSciCatalog.getCatalogCourse(course));
                 }
                 else {
-                    System.out.println();
-                    System.out.println("COURSE NOT FOUND!");
-                    System.out.println();
+                    printCourseNotFound();
                 }
             }
             else if (course.substring(0,5).equals("MATH ")) {
@@ -55,13 +81,22 @@ public class DegreeWorks {
                     worksheet.getDegreePlan().removeFromRequiredCoursework(MathCatalog.getCatalogCourse(course));
                 }
                 else {
-                    System.out.println();
-                    System.out.println("COURSE NOT FOUND!");
-                    System.out.println();
+                    printCourseNotFound();
                 }
+            }
+            else {
+                System.out.println();
+                System.out.println("ENTER A VALID COURSE ID!");
             }
 
             System.out.println();
         }
+    }
+
+    public static void printCourseNotFound(){
+        System.out.println();
+        System.out.println("COURSE NOT FOUND!");
+        System.out.println();
+
     }
 }
