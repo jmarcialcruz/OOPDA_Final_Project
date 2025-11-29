@@ -6,8 +6,13 @@ public abstract class MathCatalog implements Catalog {
     public static Set<Course> addMajorRequiredCourses() {
         Set<Course> majorRequiredCourses = new LinkedHashSet<>();
         majorRequiredCourses.addAll(addMinorRequiredCourses());     
-        majorRequiredCourses.add(new Course("MATH", "03150", "Discrete Mathematics", 4, "R"));     
-        majorRequiredCourses.add(new Course("MATH", "01231", "Ordinary Differential Equations", 4, "R"));     
+        majorRequiredCourses.add(new Course("MATH", "03150", "Discrete Mathematics", 3, "R"));     
+        majorRequiredCourses.add(new Course("MATH", "01231", "Ordinary Differential Equations", 3, "R")); 
+        majorRequiredCourses.add(new Course("MATH", "01300", "Mathematical Proof Writing", 3, "R")); 
+        majorRequiredCourses.add(new Course("MATH", "01340", "Modern Algebra I", 3, "R")); 
+        majorRequiredCourses.add(new Course("MATH", "01330", "Intro to Real Analysis I", 3, "R")); 
+        majorRequiredCourses.add(new Course("MATH", "01430", "Intro to Complex Analysis", 3, "R")); 
+        majorRequiredCourses.add(new Course("MATH", "01498", "Mathematics Seminar", 3, "R")); 
 
         return majorRequiredCourses;
     }
@@ -25,6 +30,19 @@ public abstract class MathCatalog implements Catalog {
     public static Set<Course> addElectiveCourses() {
         Set<Course> electiveCourses = new LinkedHashSet<>();
         electiveCourses.add(new Course("MATH", "01235", "Math for Engineering Analysis", 4, "R"));       
+        electiveCourses.add(new Course("MATH", "01205", "Tech Tools for Discovering Mathematics", 2, "R"));       
+        electiveCourses.add(new Course("MATH", "01310", "College Geometry", 4, "R"));       
+        electiveCourses.add(new Course("MATH", "01331", "Intro to Real Analysis II", 3, "R"));       
+        electiveCourses.add(new Course("MATH", "01341", "Modern Algebra II", 3, "R"));       
+        electiveCourses.add(new Course("MATH", "01354", "Intro to Topology", 3, "R"));       
+        electiveCourses.add(new Course("MATH", "01332", "Intro to Numerical Analysis", 3, "R"));       
+        electiveCourses.add(new Course("MATH", "03400", "Applications of Mathematics", 3, "R"));       
+        electiveCourses.add(new Course("MATH", "01421", "Mathematics Field Experience", 3, "R"));       
+        electiveCourses.add(new Course("MATH", "01386", "Partial Differential Equations", 3, "R"));       
+        electiveCourses.add(new Course("MATH", "01352", "Theory of Numbers", 3, "R"));       
+        electiveCourses.add(new Course("MATH", "01410", "History of Mathematics", 3, "R"));       
+        electiveCourses.add(new Course("MATH", "03411", "Determinstic Models in Operations Research", 3, "R"));       
+        electiveCourses.add(new Course("MATH", "03412", "Stochastic Models in Operations Research", 3, "R"));       
 
         return electiveCourses;
     }

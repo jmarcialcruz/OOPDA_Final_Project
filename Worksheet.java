@@ -6,6 +6,9 @@ public class Worksheet {
     private int degreeCreditsReq;
 
     // TODO: Possibly all degree plans to this worksheet and create on worksheet in Degree Works
+    // TODO: Include what if feature for individual worksheet
+    // TODO: Semester of when course was taken
+
     Worksheet(DegreePlan degreePlan, int creditReq) {
         this.degreePlan = degreePlan;
         this.degreeProgress = 0.0;
