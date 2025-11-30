@@ -93,8 +93,7 @@ public class Worksheet {
         return totalCredits;
     }
 
-    public void displayWorksheetInfo() {
-        System.out.println("=== Worksheet Info ===");
+    public void dispalyWorksheetHeader() {
         System.out.print("Class Standing:    " + getClassStanding() + "\t\t\t");
         System.out.println("Degree: " + degreePlan.getFieldOfStudy());
         System.out.print("Cumulative GPA:    " + String.format("%.3f", calculateGPA()) + "  \t\t\t");
@@ -103,7 +102,11 @@ public class Worksheet {
         System.out.println("Total Credits: " + getTotalCredits());
         System.out.println("Advisor:\t   " + degreePlan.getAdvisor() + " - " + degreePlan.getAdvisorEmail());
         System.out.println();
-        
+    }
+
+    public void displayWorksheetInfo() {
+        System.out.println("=== Worksheet Info ===");
+        dispalyWorksheetHeader();
         getDegreePlan().displayPlanInfo();
     }
 
