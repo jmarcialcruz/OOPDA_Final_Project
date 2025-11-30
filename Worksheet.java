@@ -3,16 +3,14 @@ public class Worksheet {
     private String classStanding;
     private DegreePlan degreePlan;
     private double degreeProgress;
-    private int degreeCreditsReq;
 
     // TODO: Possibly all degree plans to this worksheet and create on worksheet in Degree Works
     // TODO: Include what if feature for individual worksheet
     // TODO: Semester of when course was taken
 
-    Worksheet(DegreePlan degreePlan, int creditReq) {
+    Worksheet(DegreePlan degreePlan) {
         this.degreePlan = degreePlan;
         this.degreeProgress = 0.0;
-        this.degreeCreditsReq = creditReq;
     }
 
     public String getAcademicStanding() {
@@ -63,7 +61,7 @@ public class Worksheet {
 
     public boolean getDegreeCompletion() {
         int totalCredits = getTotalCredits();
-        if (totalCredits < degreeCreditsReq){
+        if (totalCredits < degreePlan.getDegreeCreditsReq()){
             return false;
         }
         else {
