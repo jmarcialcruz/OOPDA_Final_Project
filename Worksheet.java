@@ -7,6 +7,7 @@ public class Worksheet {
     // TODO: Possibly all degree plans to this worksheet and create on worksheet in Degree Works
     // TODO: Include what if feature for individual worksheet
     // TODO: Semester of when course was taken
+    // TODO: Override equals and hashCode methods
 
     Worksheet(DegreePlan degreePlan) {
         this.degreePlan = degreePlan;
@@ -53,6 +54,11 @@ public class Worksheet {
         }
 
         return classStanding;
+    }
+
+    public void updateDegreePlanCoursework(Course course, String grade) {
+        this.degreePlan.addToCompletedCoursework(course, grade);
+        this.degreePlan.removeFromRequiredCoursework(course);
     }
 
     public DegreePlan getDegreePlan() {
