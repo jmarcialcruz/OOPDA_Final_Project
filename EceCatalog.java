@@ -34,6 +34,11 @@ public abstract class EceCatalog implements Catalog {
     }
 
     public static boolean checkCatalogForCourse(String courseName) {
+        // Base case for checking string contents
+        if (!courseName.substring(0,4).equals("ECE ") && courseName.length() < 9) {
+            return false;
+        }
+
         for (Course course : addMajorRequiredCourses()) {
             if (courseName.equals(course.getSubject() + " " + course.getId())) {
                 return true;

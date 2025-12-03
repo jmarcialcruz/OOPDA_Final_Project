@@ -12,12 +12,9 @@ public class DegreeWorks {
         List<Worksheet> worksheetList = new ArrayList<>();
         int selectedWorksheet;
 
-        // TODO: Prompt user for creating a new degree plan
-        // TODO: Possibly create an array of worksheets for multiple degree plans
         // TODO: Prompt user if they want to see entire catalog
-        // TODO: Need degree plans pre-built and ready to use, not including optional minors (Subclass of DegreePlan)
-
         // TODO: Add option to add minor to existing degree plan (maybe CUGs?)
+        // TODO: Change worksheetList into a set and reject similar degree plans
 
         System.out.println("=================================");
         System.out.println("==== Welcome to Degree Works ====");
@@ -35,16 +32,14 @@ MAIN_MENU:
                     System.out.println("4. Exit");
                     System.out.print("Enter selection: ");
                     int selection = userInput.nextInt();
+                    System.out.println();
 
                     if (selection == 1) {
                         if (worksheetList.isEmpty()) {
-                            System.out.println();
-                            System.out.println("There are no worksheets with degree plans");
-                            System.out.println();
+                            System.out.println("There are no worksheets with degree plans\n");
                             continue MAIN_MENU;
                         }
                         else {
-                            System.out.println();
                             int worksheetNumber = 1;
                             for (Worksheet worksheet : worksheetList) {
                                 System.out.println("____ Worksheet " + worksheetNumber + " ____");
@@ -54,11 +49,8 @@ MAIN_MENU:
                         }
                     }
                     else if (selection == 2) {
-                        System.out.println();
-
                         if (worksheetList.isEmpty()) {
-                            System.out.println("There are no worksheets to choose from, please create a new worksheet");
-                            System.out.println();
+                            System.out.println("There are no worksheets to choose from, please create a new worksheet\n");
                             continue MAIN_MENU;
                         }
                         else {
@@ -80,14 +72,12 @@ MAIN_MENU:
                                         break MAIN_MENU;
                                     }
                                     else {
-                                        System.out.println();
-                                        System.out.println("Out of bounds");
-                                        System.out.println();
+                                        System.out.println("\nOut of bounds\n");
                                         continue MAIN_MENU;
                                     }
                                 }
                                 catch (InputMismatchException e) {
-                                    printInputMismatchMsg();
+                                    System.out.println("\n#ERROR: Invalid input. Please enter a whole number.\n");
                                     userInput.next();
                                     continue;
                                 }
@@ -95,7 +85,6 @@ MAIN_MENU:
                         }
                     }
                     else if (selection == 3) {
-                        System.out.println();
                         Worksheet worksheet;
 
                         while(true) {
@@ -109,44 +98,34 @@ MAIN_MENU:
                                 System.out.print("Choose a degree plan: ");
                                 selection  = userInput.nextInt();
 
+                                DegreePlan degree;
+
                                 if (selection == 1) {
-                                    DegreePlan degree = new DegreePlan("Physics (BS)");
-                                    worksheet = new Worksheet(degree, 120);
-                                    worksheet.getDegreePlan().addRequiredCoursework(PhysicsCatalog.addMajorRequiredCourses());
-                                    worksheet.getDegreePlan().addRequiredCoursework(MathCatalog.addMinorRequiredCourses());
-                                    break;
+                                    degree = new PhysicsDegreePlan();
                                 }
                                 else if (selection == 2) {
-                                    DegreePlan degree = new DegreePlan("Mathematics (BS)");
-                                    worksheet = new Worksheet(degree, 120);
-                                    worksheet.getDegreePlan().addRequiredCoursework(MathCatalog.addMajorRequiredCourses());
-                                    break;
+                                    degree = new MathDegreePlan();
                                 }
                                 else if (selection == 3) {
-                                    DegreePlan degree = new DegreePlan("Computer Sciencee (BS)");
-                                    worksheet = new Worksheet(degree, 120);
-                                    worksheet.getDegreePlan().addRequiredCoursework(CompSciCatalog.addMajorRequiredCourses());
-                                    worksheet.getDegreePlan().addRequiredCoursework(MathCatalog.addMinorRequiredCourses());
-                                    break;
+                                    degree = new CompSciDegreePlan();
                                 }
                                 else if (selection == 4) {
-                                    DegreePlan degree = new DegreePlan("Electical and Computer Engineering (BS)");
-                                    worksheet = new Worksheet(degree, 128);
-                                    worksheet.getDegreePlan().addRequiredCoursework(EceCatalog.addMajorRequiredCourses());
-                                    worksheet.getDegreePlan().addRequiredCoursework(MathCatalog.addMinorRequiredCourses());
-                                    break;
+                                    degree = new EceDegreePlan();
                                 }
                                 else if (selection == 5) {
                                     System.out.println();
                                     continue MAIN_MENU;
                                 }
                                 else {
-                                    printSelectionErrorMsg();
+                                    System.out.println("\n#ERROR: Incorrect Selection!\n");
                                     continue;
                                 }
+
+                                worksheet = new Worksheet(degree);
+                                break;
                             }
                             catch (InputMismatchException e) {
-                                printInputMismatchMsg();
+                                System.out.println("\n#ERROR: Invalid input. Please enter a whole number.\n");
                                 userInput.next();
                                 continue;
                             }
@@ -160,13 +139,13 @@ MAIN_MENU:
                         return;
                     }
                     else {
-                        printSelectionErrorMsg();
+                        System.out.println("\n#ERROR: Incorrect Selection!\n");
                         continue MAIN_MENU;
                     }
 
                 }
                 catch (InputMismatchException e) {
-                    printInputMismatchMsg();
+                    System.out.println("\n#ERROR: Invalid input. Please enter a whole number.\n");
                     userInput.next();
                     continue;
                 }
@@ -195,9 +174,7 @@ COURSE_SEL:
 
                 // Checks for minimum amount characters for course id i.e. CS 00100 has 8 characters
                 if (course.length() < 8) {
-                    System.out.println();
-                    System.out.println("ENTER A VALID COURSE ID!");
-                    System.out.println();
+                    System.out.println("\nENTER A VALID COURSE ID!\n");
                     continue COURSE_SEL;
                 }
 
@@ -205,77 +182,33 @@ COURSE_SEL:
                 String grade = userInput.nextLine();
 
                 if (!worksheetList.get(selectedWorksheet).isValidNumericGrade(grade)) {
-                    System.out.println();
-                    System.out.println("ENTER A VALID GRADE!");
-                    System.out.println();
+                    System.out.println("\nENTER A VALID GRADE!\n");
                     continue COURSE_SEL;
                 }
 
                 // Accepts lower and uppercase
                 course = course.toUpperCase();
+                grade = grade.toUpperCase();
 
-                if (course.substring(0,3).equals("CS ")) {
-                    if (CompSciCatalog.checkCatalogForCourse(course)) {
-                        worksheetList.get(selectedWorksheet).getDegreePlan().addToCompletedCoursework(CompSciCatalog.getCatalogCourse(course), grade);
-                        worksheetList.get(selectedWorksheet).getDegreePlan().removeFromRequiredCoursework(CompSciCatalog.getCatalogCourse(course));
-                    }
-                    else {
-                        printCourseNotFound();
-                    }
+                if (CompSciCatalog.checkCatalogForCourse(course)) {
+                    worksheetList.get(selectedWorksheet).updateDegreePlanCoursework(CompSciCatalog.getCatalogCourse(course), grade);
                 }
-                else if (course.substring(0,4).equals("ECE ")) {
-                    if (EceCatalog.checkCatalogForCourse(course)) {
-                        worksheetList.get(selectedWorksheet).getDegreePlan().addToCompletedCoursework(EceCatalog.getCatalogCourse(course), grade);
-                        worksheetList.get(selectedWorksheet).getDegreePlan().removeFromRequiredCoursework(EceCatalog.getCatalogCourse(course));
-                    }
-                    else {
-                        printCourseNotFound();
-                    }
+                else if (EceCatalog.checkCatalogForCourse(course)) {
+                    worksheetList.get(selectedWorksheet).updateDegreePlanCoursework(EceCatalog.getCatalogCourse(course), grade);
                 }
-                else if (course.substring(0,5).equals("MATH ")) {
-                    if (MathCatalog.checkCatalogForCourse(course)) {
-                        worksheetList.get(selectedWorksheet).getDegreePlan().addToCompletedCoursework(MathCatalog.getCatalogCourse(course), grade);
-                        worksheetList.get(selectedWorksheet).getDegreePlan().removeFromRequiredCoursework(MathCatalog.getCatalogCourse(course));
-                    }
-                    else {
-                        printCourseNotFound();
-                    }
+                else if (MathCatalog.checkCatalogForCourse(course)) {
+                    worksheetList.get(selectedWorksheet).updateDegreePlanCoursework(MathCatalog.getCatalogCourse(course), grade);
                 }
-                else if (course.substring(0,5).equals("PHYS ")) {
-                    if (PhysicsCatalog.checkCatalogForCourse(course)) {
-                        worksheetList.get(selectedWorksheet).getDegreePlan().addToCompletedCoursework(PhysicsCatalog.getCatalogCourse(course), grade);
-                        worksheetList.get(selectedWorksheet).getDegreePlan().removeFromRequiredCoursework(PhysicsCatalog.getCatalogCourse(course));
-                    }
-                    else {
-                        printCourseNotFound();
-                    }
+                else if (PhysicsCatalog.checkCatalogForCourse(course)) {
+                    worksheetList.get(selectedWorksheet).updateDegreePlanCoursework(PhysicsCatalog.getCatalogCourse(course), grade);
                 }
                 else {
-                    System.out.println();
-                    System.out.println("ENTER A VALID COURSE ID!");
+                    System.out.println("\nCOURSE NOT FOUND!\n");
                 }
 
                 System.out.println();
             }
         }
-    }
-
-    public static void printCourseNotFound(){
-        System.out.println();
-        System.out.println("COURSE NOT FOUND!");
-        System.out.println();
-    }
-
-    public static void printInputMismatchMsg() {
-        System.out.println();
-        System.out.println("#ERROR: Invalid input. Please enter a whole number.");
-        System.out.println();
-    }
-
-    public static void printSelectionErrorMsg() {
-        System.out.println();
-        System.out.println("#ERROR: Incorrect Selection! ");
-        System.out.println();
     }
 }
 

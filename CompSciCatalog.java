@@ -37,6 +37,11 @@ public abstract class CompSciCatalog implements Catalog {
     }
 
     public static boolean checkCatalogForCourse(String courseName) {
+        // Base case for checking string contents
+        if (!courseName.substring(0,3).equals("CS ") && courseName.length() < 8) {
+            return false;
+        }
+
         for (Course course : addMajorRequiredCourses()) {
             if (courseName.equals(course.getSubject() + " " + course.getId())) {
                 return true;

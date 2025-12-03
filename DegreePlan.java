@@ -6,6 +6,7 @@ public class DegreePlan extends Degree {
     private String advisorEmail;
     private boolean degreeCompletion;
     private double degreeProgress;
+    private int degreeCreditsReq;
     private Set<Course> requiredCoursework;
 
     DegreePlan(String fieldOfStudy) {
@@ -13,8 +14,6 @@ public class DegreePlan extends Degree {
         this.degreeProgress = 0.0;
         this.degreeCompletion = false;
         this.requiredCoursework = new LinkedHashSet<>();
-        setAdvisor("Graves,Jaclyn");
-        setAdvisorEmail("gravesj@rowan.edu");
     }
 
     public String getAdvisor() {
@@ -39,6 +38,14 @@ public class DegreePlan extends Degree {
 
     public double getDegreeProgess() {
         return this.degreeProgress;
+    }
+
+    public int getDegreeCreditsReq() {
+        return this.degreeCreditsReq;
+    }
+
+    public void setDegreeCreditsReq(int degreeCreditsReq) {
+        this.degreeCreditsReq = degreeCreditsReq;
     }
 
     public final Set<Course> getRequiredCoursework() {
