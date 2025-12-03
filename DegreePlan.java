@@ -5,13 +5,13 @@ public class DegreePlan extends Degree {
     private String advisor;
     private String advisorEmail;
     private boolean degreeCompletion;
-    private double degreeProgress;
+    private int degreeProgress;
     private int degreeCreditsReq;
     private Set<Course> requiredCoursework;
 
     DegreePlan(String fieldOfStudy) {
         super(fieldOfStudy);
-        this.degreeProgress = 0.0;
+        this.degreeProgress = 0;
         this.degreeCompletion = false;
         this.requiredCoursework = new LinkedHashSet<>();
     }
@@ -36,7 +36,7 @@ public class DegreePlan extends Degree {
         return this.degreeCompletion;
     }
 
-    public double getDegreeProgess() {
+    public int getDegreeProgress() {
         return this.degreeProgress;
     }
 
@@ -65,15 +65,19 @@ public class DegreePlan extends Degree {
     }
 
     public void displayPlanInfo() {
-        System.out.println("=== Coursework Required Info ===");
-        System.out.print("Course:  "); 
-        System.out.print("\tCredits: ");
-        System.out.println("\tTitle:   ");
+        System.out.print(ColoredOutput.BRIGHT_RED); 
+        System.out.print("__COURSE_#__"); 
+        System.out.print("\t__CREDITS__");
+        System.out.println("\t__COURSE_NAME__");
+        System.out.print(ColoredOutput.RESET); 
+        System.out.print(ColoredOutput.RED); 
 
         for (Course course : requiredCoursework) {
             course.displaySelectionInfo();
             System.out.println();
         } 
+
+        System.out.print(ColoredOutput.RESET); 
 
         System.out.println();
         super.displayDegreeInfo();

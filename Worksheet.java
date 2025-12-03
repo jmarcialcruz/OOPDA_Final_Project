@@ -98,7 +98,7 @@ public class Worksheet {
     }
 
     public void dispalyWorksheetHeader() {
-        System.out.print("Class Standing:    " + getClassStanding() + "\t\t\t");
+        System.out.print(ColoredOutput.BRIGHT_CYAN + "Class Standing:    " + getClassStanding() + "\t\t\t");
         System.out.println("Degree: " + degreePlan.getFieldOfStudy());
         System.out.print("Cumulative GPA:    " + String.format("%.3f", calculateGPA()) + "  \t\t\t");
         System.out.println("Academic Standing: " + getAcademicStanding());
@@ -108,9 +108,51 @@ public class Worksheet {
         System.out.println();
     }
 
+    public void displayWorksheetSections() {
+        displayDegreeProgressSection();
+        displayRowanExperienceSection();
+    }
+
+    public void displayRowanExperienceSection() {
+        System.out.print(ColoredOutput.BRIGHT_BLUE);
+        System.out.println("________________________________ROWAN EXPERIENCE________________________________");
+        System.out.println(ColoredOutput.RESET);
+    }
+
+    public void displayRowanCoreSection() {
+        System.out.print(ColoredOutput.BRIGHT_BLUE);
+        System.out.println("________________________________ROWAN CORE________________________________");
+        System.out.println(ColoredOutput.RESET);
+    }
+
+    public void displayNonProgramReqSection() {
+        // TODO: Fill in this section
+        // TODO: Create custom for each degree plan
+    }
+
+    public void displayProgramReqSection() {
+        // TODO: Fill in this section
+        // TODO: Create custom for each degree plan
+    }
+
+    public void displayDegreeProgressSection() {
+        System.out.println(ColoredOutput.BRIGHT_BLUE + "________________________________DEGREE PROGRESS________________________________" + ColoredOutput.RESET);
+        System.out.println(ColoredOutput.RED + "[N]" + ColoredOutput.BRIGHT_CYAN + " 120 credits are required for this degree for graduation");
+        System.out.println(ColoredOutput.BRIGHT_GREEN + "[Y]" + ColoredOutput.BRIGHT_CYAN + " Minimum 30 credits Taken in Residence");
+        System.out.println(ColoredOutput.BRIGHT_GREEN + "[Y]" + ColoredOutput.BRIGHT_CYAN + " Minimum 2.0 GPA Requirement");
+        System.out.println(ColoredOutput.RED + "[N]" + ColoredOutput.BRIGHT_CYAN + " Rowan Experience Requirements");
+        System.out.println(ColoredOutput.BRIGHT_GREEN + "[Y]" + ColoredOutput.BRIGHT_CYAN + " Rowan Core Course");
+        System.out.println(ColoredOutput.BRIGHT_GREEN + "[Y]" + ColoredOutput.BRIGHT_CYAN + " Non Program Electives");
+        System.out.println(ColoredOutput.RED + "[N]" + ColoredOutput.BRIGHT_CYAN + " Major Requirements");
+        System.out.println(ColoredOutput.BRIGHT_GREEN + "[Y]" + ColoredOutput.BRIGHT_CYAN + " Free Elective Requirement\n" + ColoredOutput.RESET);
+        System.out.print(ColoredOutput.BRIGHT_GREEN_BACKGROUND + ColoredOutput.BLACK + "Progress: [" + degreePlan.getDegreeProgress() + "%]");
+        System.out.println(ColoredOutput.RESET + ColoredOutput.BRIGHT_GREEN +  " [" + "##############" + ".............." + "]\n");
+    }
+
     public void displayWorksheetInfo() {
-        System.out.println("=== Worksheet Info ===");
+        System.out.println(ColoredOutput.BRIGHT_BLUE + "________________________________WORKSHEET INFO________________________________" + ColoredOutput.RESET);
         dispalyWorksheetHeader();
+        displayWorksheetSections();
         getDegreePlan().displayPlanInfo();
     }
 

@@ -52,9 +52,9 @@ public abstract class CompSciCatalog implements Catalog {
 
     public static Course getCatalogCourse(String elective) {
         for (Course course : addMajorRequiredCourses()) {
-            String courseTitle = course.getSubject() + " " + course.getId();
+            String courseNumber = course.getSubject() + " " + course.getId();
             
-            if (elective.equals(courseTitle)) {
+            if (elective.equals(courseNumber)) {
                 return course;
             }
         }

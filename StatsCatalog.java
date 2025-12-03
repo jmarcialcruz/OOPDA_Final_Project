@@ -29,9 +29,9 @@ public abstract class StatsCatalog implements Catalog {
         lookupCourse.addAll(addMinorRequiredCourses());
 
         for (Course course : lookupCourse) {
-            String courseTitle = course.getSubject() + " " + course.getId();
+            String courseNumber = course.getSubject() + " " + course.getId();
             
-            if (elective.equals(courseTitle)) {
+            if (elective.equals(courseNumber)) {
                 return course;
             }
         }

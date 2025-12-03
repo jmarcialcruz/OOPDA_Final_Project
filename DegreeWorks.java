@@ -15,7 +15,7 @@ public class DegreeWorks {
         // TODO: Prompt user if they want to see entire catalog
         // TODO: Add option to add minor to existing degree plan (maybe CUGs?)
         // TODO: Change worksheetList into a set and reject similar degree plans
-
+        
         System.out.println("=================================");
         System.out.println("==== Welcome to Degree Works ====");
         System.out.println("=================================");
@@ -25,6 +25,7 @@ public class DegreeWorks {
 MAIN_MENU:
             while (true) {
                 try {
+                    System.out.print(ColoredOutput.RESET);
                     System.out.println("---- Main Menu ----");
                     System.out.println("1. See Worksheets");
                     System.out.println("2. Continue with degree plan");
@@ -42,7 +43,9 @@ MAIN_MENU:
                         else {
                             int worksheetNumber = 1;
                             for (Worksheet worksheet : worksheetList) {
+                                System.out.print(ColoredOutput.BRIGHT_BLUE);
                                 System.out.println("____ Worksheet " + worksheetNumber + " ____");
+                                System.out.print(ColoredOutput.BRIGHT_CYAN);
                                 worksheet.dispalyWorksheetHeader();
                                 worksheetNumber += 1;
                             }
@@ -166,29 +169,26 @@ COURSE_SEL:
                     break COURSE_SEL;
                 }
                 else if (!selection.equalsIgnoreCase("y")){
+                    System.out.println();
                     continue COURSE_SEL;
                 }
 
-                System.out.print("Enter Course ID: ");
-                String course = userInput.nextLine();
+                System.out.print("Enter Course #: ");
+                String course = userInput.nextLine().toUpperCase();
 
                 // Checks for minimum amount characters for course id i.e. CS 00100 has 8 characters
                 if (course.length() < 8) {
-                    System.out.println("\nENTER A VALID COURSE ID!\n");
+                    System.out.println("\nENTER A VALID COURSE #!\n");
                     continue COURSE_SEL;
                 }
 
                 System.out.print("Enter letter grade: ");
-                String grade = userInput.nextLine();
+                String grade = userInput.nextLine().toUpperCase();
 
                 if (!worksheetList.get(selectedWorksheet).isValidNumericGrade(grade)) {
                     System.out.println("\nENTER A VALID GRADE!\n");
                     continue COURSE_SEL;
                 }
-
-                // Accepts lower and uppercase
-                course = course.toUpperCase();
-                grade = grade.toUpperCase();
 
                 if (CompSciCatalog.checkCatalogForCourse(course)) {
                     worksheetList.get(selectedWorksheet).updateDegreePlanCoursework(CompSciCatalog.getCatalogCourse(course), grade);

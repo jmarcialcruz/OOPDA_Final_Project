@@ -6,7 +6,7 @@ public interface Catalog {
     public default void dispalyHeader() {
         System.out.print("Course:  "); 
         System.out.print("\tCredits: ");
-        System.out.println("\tTitle:   ");
+        System.out.println("\tName:   ");
     }
 
     // public static Set<Course> addAllCourses();
