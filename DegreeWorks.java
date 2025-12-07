@@ -46,7 +46,8 @@ MAIN_MENU:
                                 System.out.print(ColoredOutput.BRIGHT_BLUE);
                                 System.out.println("____ Worksheet " + worksheetNumber + " ____");
                                 System.out.print(ColoredOutput.BRIGHT_CYAN);
-                                worksheet.dispalyWorksheetHeader();
+                                worksheet.displayWorksheetHeader();
+                                worksheet.displayDegreeProgressBar();
                                 worksheetNumber += 1;
                             }
                         }

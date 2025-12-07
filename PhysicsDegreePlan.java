@@ -1,7 +1,7 @@
 import java.util.Set;
 import java.util.LinkedHashSet;
 
-public final class PhysicsDegreePlan extends DegreePlan {
+public final class PhysicsDegreePlan extends DegreePlan implements DegreeInfo {
     PhysicsDegreePlan() {
         super("Physics (BS)");
         setAdvisor("Mason,Cristine");
@@ -12,9 +12,23 @@ public final class PhysicsDegreePlan extends DegreePlan {
 
     public void addAllDegreeRequirements() {
         addRequiredCoursework(PhysicsCatalog.addMajorRequiredCourses());
-        addRequiredCoursework(MathCatalog.getCatalogCourse("MATH 01130"));
-        addRequiredCoursework(MathCatalog.getCatalogCourse("MATH 01131"));
-        addRequiredCoursework(MathCatalog.getCatalogCourse("MATH 01230"));
     }
+
+    public void displayMajorRequirementsInfo(){
+        DegreeInfo.displaySectionHeader("PHYSICS (1902)");
+        displayEachCourse(PhysicsCatalog.addMajorRequiredCourses());
+    }
+
+    public void displayNonProgramRequirementsInfo() {
+        DegreeInfo.displaySectionHeader("NON-PROGRAM REQUIREMENTS");
+        System.out.println();
+    }
+
+    public void displayPlanInfo() {
+        displayNonProgramRequirementsInfo();
+        displayMajorRequirementsInfo();
+    }
+
+
 }
 

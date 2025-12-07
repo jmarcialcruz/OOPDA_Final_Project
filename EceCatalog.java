@@ -14,6 +14,11 @@ public abstract class EceCatalog implements Catalog {
         majorRequiredCourses.add(new Course("ECE", "09433", "Electrical Communication Systems", 3, "R"));     
         majorRequiredCourses.add(new Course("ECE", "09414", "VLSI Design", 3, "R"));     
 
+        majorRequiredCourses.add(MathCatalog.getCatalogCourse("MATH 01130"));
+        majorRequiredCourses.add(MathCatalog.getCatalogCourse("MATH 01131"));
+        majorRequiredCourses.add(MathCatalog.getCatalogCourse("MATH 01230"));
+        majorRequiredCourses.add(PhysicsCatalog.getCatalogCourse("PHYS 00200"));
+        majorRequiredCourses.add(StatsCatalog.getCatalogCourse("STAT 02286"));
         return majorRequiredCourses;
     }
 

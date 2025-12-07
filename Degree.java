@@ -4,10 +4,12 @@ import java.util.LinkedHashSet;
 public abstract class Degree {
     private String fieldOfStudy;
     private Set<Course> coursework;
+    private int completedCredits;
 
     Degree(String fieldOfStudy) {
         this.fieldOfStudy = fieldOfStudy;
         this.coursework = new LinkedHashSet<>();
+        this.completedCredits = 0;
     }
 
     public String getFieldOfStudy() {
@@ -22,28 +24,20 @@ public abstract class Degree {
         this.fieldOfStudy = fieldOfStudy;
     }
 
-    public void addToCompletedCoursework(Course course) {
-        for (Course completedCourse : coursework) {
-
-        }
-        coursework.add(course);
+    public int getCompletedCredits() {
+        return this.completedCredits;
     }
-    
+
     public void addToCompletedCoursework(Course course, String grade) {
         course.setGrade(grade);
         coursework.add(course);
-    }
-
-    // Add more than one course to coursework
-    public void addToCompletedCoursework(Set<Course> coursework) {
-        for (Course course : coursework) {
-            coursework.add(course);
-        }
+        completedCredits += course.getCredits();
     }
 
     public void removeFromCompletedCoursework(Course course) {
         boolean removed = coursework.remove(course);
         System.out.println("Course " + course.getSubject() + " " + course.getId() + " removed: " + removed);
+        completedCredits -= course.getCredits();
     }
 
     public void displayDegreeInfo() {

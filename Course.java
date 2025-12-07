@@ -23,10 +23,27 @@ public class Course {
         this.grade = catalogCourse.grade;
     }
 
+    // Helper method for aligning the course selection list
+    private void drawDashedLines(int length1, int length2) {
+       String dashedLine = " ";
+       int dashedLineLength = length1 - length2;
+
+       for (int i = 0; i < dashedLineLength; i++) {
+            dashedLine = dashedLine.concat("-");
+       }
+
+       dashedLine = dashedLine.concat(" ");
+       System.out.print(dashedLine);
+    }
+
+    // TODO: Fix alignment
     public void displaySelectionInfo() {
        System.out.print(getSubject() + " " + getId()); 
-       System.out.print(" -------- (" + getCredits());
-       System.out.print(") --------- " + getName());
+       drawDashedLines(13, getSubject().length());
+       System.out.print(getGrade());
+       drawDashedLines(13, getGrade().length());
+       System.out.print("(" + getCredits());
+       System.out.print(") ------- " + getName());
     }
 
     public void displayFinishedInfo() {
