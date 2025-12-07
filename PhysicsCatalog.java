@@ -33,6 +33,11 @@ public abstract class PhysicsCatalog implements Catalog {
     }
 
     public static boolean checkCatalogForCourse(String courseName) {
+        // Base case for checking string contents
+        if (!courseName.substring(0,5).equals("PHYS ") && courseName.length() < 10) {
+            return false;
+        }
+
         for (Course course : addMajorRequiredCourses()) {
             if (courseName.equals(course.getSubject() + " " + course.getId())) {
                 return true;
@@ -46,9 +51,9 @@ public abstract class PhysicsCatalog implements Catalog {
         lookupCourse.addAll(addMajorRequiredCourses());
 
         for (Course course : lookupCourse) {
-            String courseTitle = course.getSubject() + " " + course.getId();
+            String courseNumber = course.getSubject() + " " + course.getId();
             
-            if (elective.equals(courseTitle)) {
+            if (elective.equals(courseNumber)) {
                 return course;
             }
         }

@@ -14,6 +14,11 @@ public abstract class EceCatalog implements Catalog {
         majorRequiredCourses.add(new Course("ECE", "09433", "Electrical Communication Systems", 3, "R"));     
         majorRequiredCourses.add(new Course("ECE", "09414", "VLSI Design", 3, "R"));     
 
+        majorRequiredCourses.add(MathCatalog.getCatalogCourse("MATH 01130"));
+        majorRequiredCourses.add(MathCatalog.getCatalogCourse("MATH 01131"));
+        majorRequiredCourses.add(MathCatalog.getCatalogCourse("MATH 01230"));
+        majorRequiredCourses.add(PhysicsCatalog.getCatalogCourse("PHYS 00200"));
+        majorRequiredCourses.add(StatsCatalog.getCatalogCourse("STAT 02286"));
         return majorRequiredCourses;
     }
 
@@ -34,6 +39,11 @@ public abstract class EceCatalog implements Catalog {
     }
 
     public static boolean checkCatalogForCourse(String courseName) {
+        // Base case for checking string contents
+        if (!courseName.substring(0,4).equals("ECE ") && courseName.length() < 9) {
+            return false;
+        }
+
         for (Course course : addMajorRequiredCourses()) {
             if (courseName.equals(course.getSubject() + " " + course.getId())) {
                 return true;
@@ -47,9 +57,9 @@ public abstract class EceCatalog implements Catalog {
         lookupCourse.addAll(addMajorRequiredCourses());
 
         for (Course course : lookupCourse) {
-            String courseTitle = course.getSubject() + " " + course.getId();
+            String courseNumber = course.getSubject() + " " + course.getId();
             
-            if (elective.equals(courseTitle)) {
+            if (elective.equals(courseNumber)) {
                 return course;
             }
         }

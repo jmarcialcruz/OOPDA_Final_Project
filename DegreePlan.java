@@ -1,20 +1,48 @@
 import java.util.Set;
+import java.util.List;
 import java.util.LinkedHashSet;
+import java.util.ArrayList;
 
 public class DegreePlan extends Degree {
+    private int progressBitmap;
+    private int degreeProgress;
+    private int degreeCreditsReq;
     private String advisor;
     private String advisorEmail;
-    private boolean degreeCompletion;
-    private double degreeProgress;
     private Set<Course> requiredCoursework;
+    private List<Set<Course>> degreeSectionList;
 
     DegreePlan(String fieldOfStudy) {
         super(fieldOfStudy);
-        this.degreeProgress = 0.0;
-        this.degreeCompletion = false;
+        this.degreeProgress = 0;
         this.requiredCoursework = new LinkedHashSet<>();
-        setAdvisor("Graves,Jaclyn");
-        setAdvisorEmail("gravesj@rowan.edu");
+        this.degreeSectionList = new ArrayList<>();
+        this.progressBitmap = 0;
+    }
+
+    protected void createDegreeSections(int index) {
+        for (int i = 0; i < index; i++) {
+            degreeSectionList.add(new LinkedHashSet<>());
+        }
+    }
+
+    public List<Set<Course>> getDegreeSectionList() {
+        return this.degreeSectionList;
+    }
+
+    public void setProgressBit(int index) {
+        int statusBit = 1 << index;
+        progressBitmap |= statusBit;
+    }
+
+    public void unsetProgressBit(int index) {
+        int statusBit = 1 << index;
+        progressBitmap &= ~statusBit;
+    }
+
+    public int getProgressBit(int index) {
+        int statusBit = 1 & (progressBitmap >> index);
+        return statusBit;
     }
 
     public String getAdvisor() {
@@ -33,43 +61,67 @@ public class DegreePlan extends Degree {
         this.advisorEmail = advisorEmail;
     }
 
-    public boolean getDegreeCompletion() {
-        return this.degreeCompletion;
-    }
-
-    public double getDegreeProgess() {
+    public int getDegreeProgress() {
         return this.degreeProgress;
     }
 
-    public final Set<Course> getRequiredCoursework() {
+    public int getDegreeCreditsReq() {
+        return this.degreeCreditsReq;
+    }
+
+    public void setDegreeCreditsReq(int degreeCreditsReq) {
+        this.degreeCreditsReq = degreeCreditsReq;
+    }
+
+    public Set<Course> getRequiredCoursework() {
         return this.requiredCoursework;
     }
 
-    public final void addRequiredCoursework(Course course) {
-        requiredCoursework.add(course);        
+    public void addRequiredCoursework(Course course) {
+        requiredCoursework.add(course);
     }
 
-    public final void addRequiredCoursework(Set<Course> coursework) {
-        requiredCoursework.addAll(coursework);        
+    public void addRequiredCoursework(Set<Course> coursework) {
+        requiredCoursework.addAll(coursework);
     }
 
-    public final void removeFromRequiredCoursework(Course course) {
-        requiredCoursework.remove(course);        
+    protected void displayEachCourse(Set<Course> selectedCoursework) {
+        for (Course completedCourse : getRequiredCoursework()) {
+            for (Course selectedCourse : selectedCoursework) {
+                if (completedCourse.equals(selectedCourse)) {
+                    if (completedCourse.getGrade().equals("R")){
+                        System.out.print(ColoredOutput.RED);
+                    }
+                    else if (completedCourse.getGrade().equals("F")){
+                        System.out.print(ColoredOutput.BRIGHT_YELLOW);
+                    }
+                    else {
+                        System.out.print(ColoredOutput.GREEN);
+                    }
+
+                    completedCourse.displaySelectionInfo();
+                    System.out.println();
+                }
+            }
+        }
+
+        System.out.println(ColoredOutput.RESET);
     }
 
+    // Only updates required coursework grade once
+    public void updateRequiredCoursework(Course course, String grade) {
+        for (Course reqCourse : requiredCoursework) {
+            if (reqCourse.equals(course) && reqCourse.getGrade().equals("R")) {
+                reqCourse.setGrade(grade);
+            }
+        }
+    }
+
+    // TODO: Find a solution to this issue for the subclass methods
     public void displayPlanInfo() {
-        System.out.println("=== Coursework Required Info ===");
-        System.out.print("Course:  "); 
-        System.out.print("\tCredits: ");
-        System.out.println("\tTitle:   ");
+    }
 
-        for (Course course : requiredCoursework) {
-            course.displaySelectionInfo();
-            System.out.println();
-        } 
-
-        System.out.println();
-        super.displayDegreeInfo();
+    public void getDegreeSectionProgress() {
     }
 }
 
