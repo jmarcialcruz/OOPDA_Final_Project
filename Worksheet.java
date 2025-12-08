@@ -3,9 +3,6 @@ public class Worksheet {
     private String classStanding;
     private DegreePlan degreePlan;
 
-    // TODO: Include 'what if' feature for individual worksheet
-    // TODO: Semester of when course was taken
-    // TODO: Override equals and hashCode methods for worksheet
     // TODO: Fix progress percent bar, exceeds 100 percent due to credits
 
     Worksheet(DegreePlan degreePlan) {
@@ -50,6 +47,11 @@ public class Worksheet {
     }
 
     public void updateDegreePlanCoursework(Course course, String grade) {
+        if (degreePlan.getCompletedCoursework().contains(course)) {
+            System.out.println("\nERROR: Duplicate course enter!");
+            return;
+        }
+
         this.degreePlan.addToCompletedCoursework(course, grade);
         this.degreePlan.updateRequiredCoursework(course, grade);
     }
@@ -58,8 +60,9 @@ public class Worksheet {
         return this.degreePlan;
     }
 
+    // Check if all bits are set in bitmap
     public boolean getDegreeCompletion() {
-        if (calculateDegreeProgress() < 100) {
+        if (degreePlan.getProgressBitmap() != 0xFF) {
             return false;
         }
 
@@ -84,14 +87,29 @@ public class Worksheet {
         
         return totalQualityPoints / totalCredits;
     }
-    
+
+    // Checks total credits 'applied' to degree plan, ignores extra credits added
     public int calculateDegreeProgress() {
-        double totalCredits = (double) getDegreePlan().getCompletedCredits();
-        double creditReq = (double) degreePlan.getDegreeCreditsReq();
+        double creditReq = (double) (degreePlan.getDegreeCreditsReq() + degreePlan.getRestrictedElectiveCreditsReq());
+        double completedCredits = (double) getDegreePlan().getCompletedCredits();
+
+        double freeElectiveCredits = (double) degreePlan.getFreeElectiveCredits();
+        double freeElectiveCreditsReq = (double) degreePlan.getFreeElectiveCreditsReq();
+
+        double creditsNotApplied = freeElectiveCredits - freeElectiveCreditsReq;
+
+        if (creditsNotApplied > 0) {
+            completedCredits -= creditsNotApplied;
+        }
+
+        int progressPercentage = (int) ((completedCredits/creditReq) * 100);
         
-        int progessPercentage = (int) ((totalCredits/creditReq) * 100);
-        
-        return progessPercentage;
+        if (progressPercentage > 100) {
+            return 100;
+        }
+        else{
+            return progressPercentage;
+        }
     }
 
     public void displayDegreeProgressBar() {
@@ -115,6 +133,7 @@ public class Worksheet {
     }
 
     public void displayWorksheetHeader() {
+        degreePlan.getDegreeSectionProgress();
         System.out.print(ColoredOutput.BRIGHT_CYAN + "Class Standing:    " + getClassStanding() + "\t\t\t");
         System.out.println("Degree: " + degreePlan.getFieldOfStudy());
         System.out.print("Cumulative GPA:    " + String.format("%.3f", calculateGPA()) + "  \t\t\t");
@@ -123,16 +142,6 @@ public class Worksheet {
         System.out.println("Total Credits: " + getDegreePlan().getCompletedCredits());
         System.out.println("Advisor:\t   " + degreePlan.getAdvisor() + " - " + degreePlan.getAdvisorEmail());
         System.out.println();
-    }
-
-    private void displayNonProgramReqSection() {
-        // TODO: Fill in this section
-        // TODO: Create custom for each degree plan
-    }
-
-    private void displayProgramReqSection() {
-        // TODO: Fill in this section
-        // TODO: Create custom for each degree plan
     }
 
     private void displaySectionHeader(String header) {
@@ -154,14 +163,13 @@ public class Worksheet {
 
     private void displayDegreeProgressSection() {
         System.out.println(ColoredOutput.BRIGHT_BLUE + "________________________________DEGREE PROGRESS________________________________" + ColoredOutput.RESET);
-        degreePlan.getDegreeSectionProgress();
         displayProgressStatus(0, " 120 credits are required for this degree for graduation");
         displayProgressStatus(1, " Minimum 30 credits Taken in Residence");
         displayProgressStatus(2, " Minimum 2.0 GPA Requirement");
         displayProgressStatus(3, " Rowan Experience Requirements");
         displayProgressStatus(4, " Rowan Core Course");
         displayProgressStatus(5, " Non Program Electives");
-        displayProgressStatus(6, " Major Requirements");
+        displayProgressStatus(6, " Major Requirements (Includes Restricted Electives)");
         displayProgressStatus(7, " Free Elective Requirement\n");
         displayDegreeProgressBar();
     }

@@ -11,12 +11,12 @@ public final class EceDegreePlan extends DegreePlan implements DegreeInfo {
     }
 
     public void addAllDegreeRequirements() {
-        addRequiredCoursework(EceCatalog.addMajorRequiredCourses());
+        addRequiredCoursework(EceCatalog.getMajorRequiredCourses());
     }
 
         public void displayMajorRequirementsInfo(){
         DegreeInfo.displaySectionHeader("Electrical & Computer Engineering (0919)");
-        displayEachCourse(EceCatalog.addMajorRequiredCourses());
+        displayEachCourse(EceCatalog.getMajorRequiredCourses());
     }
 
     public void displayNonProgramRequirementsInfo() {

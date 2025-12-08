@@ -11,12 +11,12 @@ public final class PhysicsDegreePlan extends DegreePlan implements DegreeInfo {
     }
 
     public void addAllDegreeRequirements() {
-        addRequiredCoursework(PhysicsCatalog.addMajorRequiredCourses());
+        addRequiredCoursework(PhysicsCatalog.getMajorRequiredCourses());
     }
 
     public void displayMajorRequirementsInfo(){
         DegreeInfo.displaySectionHeader("PHYSICS (1902)");
-        displayEachCourse(PhysicsCatalog.addMajorRequiredCourses());
+        displayEachCourse(PhysicsCatalog.getMajorRequiredCourses());
     }
 
     public void displayNonProgramRequirementsInfo() {

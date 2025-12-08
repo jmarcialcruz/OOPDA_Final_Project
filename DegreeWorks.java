@@ -191,17 +191,20 @@ COURSE_SEL:
                     continue COURSE_SEL;
                 }
 
-                if (CompSciCatalog.checkCatalogForCourse(course)) {
+                if (CompSciCatalog.isCatalogCourse(course)) {
                     worksheetList.get(selectedWorksheet).updateDegreePlanCoursework(CompSciCatalog.getCatalogCourse(course), grade);
                 }
-                else if (EceCatalog.checkCatalogForCourse(course)) {
+                else if (EceCatalog.isCatalogCourse(course)) {
                     worksheetList.get(selectedWorksheet).updateDegreePlanCoursework(EceCatalog.getCatalogCourse(course), grade);
                 }
-                else if (MathCatalog.checkCatalogForCourse(course)) {
+                else if (MathCatalog.isCatalogCourse(course)) {
                     worksheetList.get(selectedWorksheet).updateDegreePlanCoursework(MathCatalog.getCatalogCourse(course), grade);
                 }
-                else if (PhysicsCatalog.checkCatalogForCourse(course)) {
+                else if (PhysicsCatalog.isCatalogCourse(course)) {
                     worksheetList.get(selectedWorksheet).updateDegreePlanCoursework(PhysicsCatalog.getCatalogCourse(course), grade);
+                }
+                else if (MiscCatalog.isCatalogCourse(course)) {
+                    worksheetList.get(selectedWorksheet).updateDegreePlanCoursework(MiscCatalog.getCatalogCourse(course), grade);
                 }
                 else {
                     System.out.println("\nCOURSE NOT FOUND!\n");

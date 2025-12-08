@@ -11,12 +11,12 @@ public final class MathDegreePlan extends DegreePlan implements DegreeInfo {
     }
 
     public void addAllDegreeRequirements() {
-        addRequiredCoursework(MathCatalog.addMajorRequiredCourses());
+        addRequiredCoursework(MathCatalog.getMajorRequiredCourses());
     }
 
     public void displayMajorRequirementsInfo(){
         DegreeInfo.displaySectionHeader("MATHEMATICS (1702)");
-        displayEachCourse(MathCatalog.addMajorRequiredCourses());
+        displayEachCourse(MathCatalog.getMajorRequiredCourses());
     }
 
     public void displayNonProgramRequirementsInfo() {

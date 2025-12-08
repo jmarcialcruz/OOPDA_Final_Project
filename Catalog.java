@@ -1,13 +1,34 @@
 import java.util.Set;
+import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.ArrayList;
 
-public interface Catalog {
-    public void displayAllCourses();
+public abstract class Catalog {
+    protected static boolean isCatalogCourse(String courseName, String courseSubject, Set<Course> coursework) {
+        // Base case for checking string contents
+        int length  = courseSubject.length();
 
-    public default void dispalyHeader() {
-        System.out.print("Course:  "); 
-        System.out.print("\tCredits: ");
-        System.out.println("\tName:   ");
+        if (!courseName.substring(0, length).equals(courseSubject) && courseName.length() < length + 5) {
+            return false;
+        }
+
+        for (Course course : coursework) {
+            if (courseName.equals(course.getSubject() + " " + course.getId())) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    // public static Set<Course> addAllCourses();
+    protected static Course getCatalogCourse(String elective, Set<Course> coursework) {
+        for (Course course : coursework) {
+            String courseNumber = course.getSubject() + " " + course.getId();
+
+            if (elective.equals(courseNumber)) {
+                return course;
+            }
+        }
+
+        return null;
+    }
 }

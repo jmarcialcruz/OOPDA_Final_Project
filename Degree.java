@@ -5,6 +5,8 @@ public abstract class Degree {
     private String fieldOfStudy;
     private Set<Course> coursework;
     private int completedCredits;
+    private int freeElectiveCredits;
+    private int restrictedElectiveCredits;
 
     Degree(String fieldOfStudy) {
         this.fieldOfStudy = fieldOfStudy;
@@ -28,6 +30,23 @@ public abstract class Degree {
         return this.completedCredits;
     }
 
+    public int getFreeElectiveCredits() {
+        return this.freeElectiveCredits;
+    }
+
+    public void setFreeElectiveCredits(int credits) {
+        this.freeElectiveCredits = credits;
+    }
+
+    public int getRestrictedElectiveCredits() {
+        return this.restrictedElectiveCredits;
+    }
+
+    public void setRestrictedElectiveCredits(int credits) {
+        this.restrictedElectiveCredits = credits;
+    }
+
+    // TODO: Fix duplicate credit addition
     public void addToCompletedCoursework(Course course, String grade) {
         course.setGrade(grade);
         coursework.add(course);
