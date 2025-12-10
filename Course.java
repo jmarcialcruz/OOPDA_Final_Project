@@ -1,42 +1,54 @@
+import java.util.Objects;
+
 public class Course {
     private String subject;
     private String id;
-    private String title;
+    private String name;
     private String grade;
     private int credits;
     
-    Course (String subject, String id, String title, int credits) {
+    Course (String subject, String id, String name, int credits, String grade) {
         this.subject = subject;
         this.id = id;
-        this.title = title;
-        this.credits = credits;
-    }
-
-    Course (String subject, String id, String title, String grade, int credits) {
-        this.subject = subject;
-        this.id = id;
-        this.title = title;
+        this.name = name;
         this.grade = grade;
         this.credits = credits;
     }
 
-    Course (Course catalogCourse, String grade) {
+    Course (Course catalogCourse) {
         this.subject = catalogCourse.subject;
         this.id = catalogCourse.id;
-        this.title = catalogCourse.title;
+        this.name = catalogCourse.name;
         this.credits = catalogCourse.credits;
-        this.grade = grade;
+        this.grade = catalogCourse.grade;
     }
 
+    // Helper method for aligning the course selection list
+    private void drawDashedLines(int length1, int length2) {
+       String dashedLine = " ";
+       int dashedLineLength = length1 - length2;
+
+       for (int i = 0; i < dashedLineLength; i++) {
+            dashedLine = dashedLine.concat("-");
+       }
+
+       dashedLine = dashedLine.concat(" ");
+       System.out.print(dashedLine);
+    }
+
+    // TODO: Fix alignment
     public void displaySelectionInfo() {
        System.out.print(getSubject() + " " + getId()); 
-       System.out.print(" -------- (" + getCredits());
-       System.out.print(") --------- " + getTitle());
+       drawDashedLines(13, getSubject().length());
+       System.out.print(getGrade());
+       drawDashedLines(13, getGrade().length());
+       System.out.print("(" + getCredits());
+       System.out.print(") ------- " + getName());
     }
 
     public void displayFinishedInfo() {
         System.out.println("Course:  " + getSubject() + " " + getId()); 
-        System.out.println("Title:   " + getTitle());
+        System.out.println("Name:    " + getName());
         System.out.println("Credits: " + getCredits());
         System.out.println("Grade:   " + getGrade());
     }
@@ -49,8 +61,8 @@ public class Course {
         return this.id;
     }
 
-    public String getTitle() {
-        return this.title;
+    public String getName() {
+        return this.name;
     }
 
     public String getGrade() {
@@ -69,8 +81,8 @@ public class Course {
         this.id = id;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setGrade(String grade) {
@@ -81,5 +93,22 @@ public class Course {
         this.credits = credits;
     }
 
+    @Override 
+    public boolean equals(Object obj) {
+        // Referring to same object then return true
+        if (this == obj) return true;
+
+        // Checking if object is null or the object is not an instance of this class
+        if (obj == null || obj.getClass() != this.getClass()) return false;
+
+        Course course = (Course) obj;
+
+        return (course.subject.equals(this.subject) && course.id.equals(this.id) && course.name.equals(this.name) && course.credits == this.credits);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(subject, id, name, credits);
+    }
 }
 

@@ -1,46 +1,34 @@
 import java.util.Set;
+import java.util.List;
 import java.util.LinkedHashSet;
+import java.util.ArrayList;
 
 public abstract class Catalog {
-    private LinkedHashSet<Course> courseCatalog;
+    protected static boolean isCatalogCourse(String courseName, String courseSubject, Set<Course> coursework) {
+        // Base case for checking string contents
+        int length  = courseSubject.length();
 
-    Catalog() {
-        courseCatalog = new LinkedHashSet<>();
-    }
-
-    protected void addAllCourses() {
-        getCourseCatalog().addAll(addMajorRequiredCourses());
-        getCourseCatalog().addAll(addElectiveCourses());
-    }
-
-    public abstract LinkedHashSet<Course> addMajorRequiredCourses();
-    public abstract LinkedHashSet<Course> addMinorRequiredCourses();
-    public abstract LinkedHashSet<Course> addElectiveCourses();
-        
-    public final void displayAllCourses() {
-        System.out.print("Course:  "); 
-        System.out.print("\tCredits: ");
-        System.out.println("\tTitle:   ");
-
-        for (Course course : courseCatalog) {
-            course.displaySelectionInfo();
-            System.out.println();
+        if (!courseName.substring(0, length).equals(courseSubject) && courseName.length() < length + 5) {
+            return false;
         }
 
-        System.out.println();
-    };
-
-    public LinkedHashSet<Course> getCourseCatalog() {
-        return this.courseCatalog;
+        for (Course course : coursework) {
+            if (courseName.equals(course.getSubject() + " " + course.getId())) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public Course getCatalogCourse(String elective) {
-        for (Course course : getCourseCatalog()) {
-            if (elective.equals(course.getSubject() + " " + course.getId())) {
+    protected static Course getCatalogCourse(String elective, Set<Course> coursework) {
+        for (Course course : coursework) {
+            String courseNumber = course.getSubject() + " " + course.getId();
+
+            if (elective.equals(courseNumber)) {
                 return course;
             }
         }
-        System.out.println("Course not found");
+
         return null;
     }
 }

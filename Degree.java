@@ -3,18 +3,22 @@ import java.util.LinkedHashSet;
 
 public abstract class Degree {
     private String fieldOfStudy;
-    private LinkedHashSet<Course> coursework;
+    private Set<Course> coursework;
+    private int completedCredits;
+    private int freeElectiveCredits;
+    private int restrictedElectiveCredits;
 
     Degree(String fieldOfStudy) {
         this.fieldOfStudy = fieldOfStudy;
         this.coursework = new LinkedHashSet<>();
+        this.completedCredits = 0;
     }
 
     public String getFieldOfStudy() {
         return this.fieldOfStudy;
     }
 
-    public LinkedHashSet<Course> getCompletedCoursework() {
+    public Set<Course> getCompletedCoursework() {
         return this.coursework;
     }
 
@@ -22,25 +26,37 @@ public abstract class Degree {
         this.fieldOfStudy = fieldOfStudy;
     }
 
-    public void addToCompletedCoursework(Course course) {
-        coursework.add(course);
-    }
-    
-    public void addToCompletedCoursework(Course course, String grade) {
-        Course completedCourse = new Course(course, grade);
-        coursework.add(completedCourse);
+    public int getCompletedCredits() {
+        return this.completedCredits;
     }
 
-    // Add more than one course to coursework
-    public void addToCompletedCoursework(LinkedHashSet<Course> coursework) {
-        for (Course course : coursework) {
-            coursework.add(course);
-        }
+    public int getFreeElectiveCredits() {
+        return this.freeElectiveCredits;
+    }
+
+    public void setFreeElectiveCredits(int credits) {
+        this.freeElectiveCredits = credits;
+    }
+
+    public int getRestrictedElectiveCredits() {
+        return this.restrictedElectiveCredits;
+    }
+
+    public void setRestrictedElectiveCredits(int credits) {
+        this.restrictedElectiveCredits = credits;
+    }
+
+    // TODO: Fix duplicate credit addition
+    public void addToCompletedCoursework(Course course, String grade) {
+        course.setGrade(grade);
+        coursework.add(course);
+        completedCredits += course.getCredits();
     }
 
     public void removeFromCompletedCoursework(Course course) {
         boolean removed = coursework.remove(course);
         System.out.println("Course " + course.getSubject() + " " + course.getId() + " removed: " + removed);
+        completedCredits -= course.getCredits();
     }
 
     public void displayDegreeInfo() {
