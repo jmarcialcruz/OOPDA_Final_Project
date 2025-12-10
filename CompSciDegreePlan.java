@@ -1,8 +1,3 @@
-import java.util.Set;
-import java.util.List;
-import java.util.LinkedHashSet;
-import java.util.ArrayList;
-
 public final class CompSciDegreePlan extends DegreePlan implements DegreeInfo {
     CompSciDegreePlan() {
         super("Computer Science (BS)");

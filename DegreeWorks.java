@@ -97,8 +97,7 @@ MAIN_MENU:
                                 System.out.println("1. Physics");
                                 System.out.println("2. Mathematics");
                                 System.out.println("3. Computer Science");
-                                System.out.println("4. Electical and Computer Engineering");
-                                System.out.println("5. To Return to Main Menu");
+                                System.out.println("4. To Return to Main Menu");
                                 System.out.print("Choose a degree plan: ");
                                 selection  = userInput.nextInt();
 
@@ -114,9 +113,6 @@ MAIN_MENU:
                                     degree = new CompSciDegreePlan();
                                 }
                                 else if (selection == 4) {
-                                    degree = new EceDegreePlan();
-                                }
-                                else if (selection == 5) {
                                     System.out.println();
                                     continue MAIN_MENU;
                                 }
@@ -193,9 +189,6 @@ COURSE_SEL:
 
                 if (CompSciCatalog.isCatalogCourse(course)) {
                     worksheetList.get(selectedWorksheet).updateDegreePlanCoursework(CompSciCatalog.getCatalogCourse(course), grade);
-                }
-                else if (EceCatalog.isCatalogCourse(course)) {
-                    worksheetList.get(selectedWorksheet).updateDegreePlanCoursework(EceCatalog.getCatalogCourse(course), grade);
                 }
                 else if (MathCatalog.isCatalogCourse(course)) {
                     worksheetList.get(selectedWorksheet).updateDegreePlanCoursework(MathCatalog.getCatalogCourse(course), grade);

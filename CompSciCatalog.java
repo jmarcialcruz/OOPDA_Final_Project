@@ -23,6 +23,7 @@ public class CompSciCatalog extends Catalog {
         Set<Course> allCourses = new LinkedHashSet<>();
         allCourses.addAll(getMajorRequiredCourses());
         allCourses.addAll(getElectiveCourses());
+        allCourses.addAll(getOptionalCourses());
         return allCourses;
     }
 
@@ -95,6 +96,13 @@ public class CompSciCatalog extends Catalog {
         electiveCourses.add(new Course("CS", "07470", "Machine Learning", 3, "R")); 
 
         return electiveCourses;
+    }
+
+    public static Set<Course> getOptionalCourses() {
+        Set<Course> optionalCourses = new LinkedHashSet<>();
+        optionalCourses.add(new Course("CS", "04103", "Intro to Computer Science and Programming", 4, "R"));
+        optionalCourses.add(new Course("CS", "04225", "Principles of Data Structures", 3, "R"));
+        return optionalCourses;
     }
 
     public static boolean isCatalogCourse(String courseName) {

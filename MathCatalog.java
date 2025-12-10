@@ -12,9 +12,9 @@ public class MathCatalog extends Catalog {
     }
 
     public static List<Set<Course>> getCatalogSectionList() {
-//        catalogSectionList.add(addRowanExpCourses());
-//        catalogSectionList.add(addRowanCoreCourses());
-//        catalogSectionList.add(addNonProgramCourses());
+        catalogSectionList.add(getRowanExpCourses());
+        catalogSectionList.add(getRowanCoreCourses());
+        catalogSectionList.add(getNonProgramCourses());
         catalogSectionList.add(getMajorRequiredCourses());
         return catalogSectionList;
     }
@@ -23,6 +23,7 @@ public class MathCatalog extends Catalog {
         Set<Course> allCourses = new LinkedHashSet<>();
         allCourses.addAll(getMajorRequiredCourses());
         allCourses.addAll(getElectiveCourses());
+        allCourses.addAll(getOptionalCourses());
         return allCourses;
     }
 
@@ -35,17 +36,45 @@ public class MathCatalog extends Catalog {
         majorRequiredCourses.add(new Course("MATH", "01210", "Linear Algebra", 3, "R"));     
         majorRequiredCourses.add(new Course("MATH", "01231", "Ordinary Differential Equations", 3, "R")); 
         majorRequiredCourses.add(new Course("MATH", "01300", "Mathematical Proof Writing", 3, "R")); 
+
         majorRequiredCourses.add(new Course("MATH", "01340", "Modern Algebra I", 3, "R")); 
         majorRequiredCourses.add(new Course("MATH", "01330", "Intro to Real Analysis I", 3, "R")); 
+        majorRequiredCourses.add(MiscCatalog.getCatalogCourse("STAT 02360"));
         majorRequiredCourses.add(new Course("MATH", "01430", "Intro to Complex Analysis", 3, "R")); 
         majorRequiredCourses.add(new Course("MATH", "01498", "Mathematics Seminar", 3, "R")); 
 
         return majorRequiredCourses;
     }
 
+    public static Set<Course> getNonProgramCourses(){
+        Set<Course> nonProgramCourses = new LinkedHashSet<>();
+        nonProgramCourses.add(CompSciCatalog.getCatalogCourse("CS 04103"));
+        nonProgramCourses.add(CompSciCatalog.getCatalogCourse("CS 04225"));
+        nonProgramCourses.add(PhysicsCatalog.getCatalogCourse("PHYS 00200"));
+        nonProgramCourses.add(PhysicsCatalog.getCatalogCourse("PHYS 00221"));
+        nonProgramCourses.add(MiscCatalog.getCatalogCourse("STAT 02320"));
+
+        return nonProgramCourses;
+    }
+
+    public static Set<Course> getRowanExpCourses() {
+        Set<Course> rowanExpCourses = new LinkedHashSet<>();
+        rowanExpCourses.add(MiscCatalog.getCatalogCourse("GERM 03100"));
+        rowanExpCourses.add(MathCatalog.getCatalogCourse("MATH 01000")); 
+        rowanExpCourses.add(MathCatalog.getCatalogCourse("MATH 01498"));
+
+        return rowanExpCourses;
+    }
+
+    public static Set<Course> getRowanCoreCourses() {
+        Set<Course> rowanCoreCourses = new LinkedHashSet<>();
+        rowanCoreCourses.add(MiscCatalog.getCatalogCourse("ECON 04101"));
+        rowanCoreCourses.addAll(MiscCatalog.getStandardRowanCoreCourses());
+        return rowanCoreCourses;
+    }
+
     public static Set<Course> getElectiveCourses() {
         Set<Course> electiveCourses = new LinkedHashSet<>();
-        electiveCourses.add(new Course("MATH", "01235", "Math for Engineering Analysis", 4, "R")); 
         electiveCourses.add(new Course("MATH", "01205", "Tech Tools for Discovering Mathematics", 2, "R"));       
         electiveCourses.add(new Course("MATH", "01310", "College Geometry", 4, "R")); 
         electiveCourses.add(new Course("MATH", "01331", "Intro to Real Analysis II", 3, "R"));       
@@ -59,13 +88,16 @@ public class MathCatalog extends Catalog {
         electiveCourses.add(new Course("MATH", "01410", "History of Mathematics", 3, "R"));       
         electiveCourses.add(new Course("MATH", "03411", "Determinstic Models in Operations Research", 3, "R"));       
         electiveCourses.add(new Course("MATH", "03412", "Stochastic Models in Operations Research", 3, "R"));       
-
         return electiveCourses;
     }
 
-//    public static Set<Course> addNonProgramCourses();
-//    public static Set<Course> addRowanExpCourses();
-//    public static Set<Course> addRowanCoreCourses();
+    public static Set<Course> getOptionalCourses() {
+        Set<Course> optionalCourses = new LinkedHashSet<>();
+        optionalCourses.add(new Course("MATH", "01235", "Mathematics for Engineering Analysis", 4, "R")); 
+        optionalCourses.add(new Course("MATH", "01000", "Mathematics Learning Community", 1, "R")); 
+
+        return optionalCourses;
+    }
 
     public static boolean isCatalogCourse(String courseName) {
         return isCatalogCourse(courseName, "MATH ", getAllCourses());

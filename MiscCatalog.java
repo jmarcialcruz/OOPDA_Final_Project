@@ -15,42 +15,52 @@ public class MiscCatalog extends Catalog {
         return rowanCoreCourses;
     }
 
-    public static Set<Course> getOptionalCourses() {
-        Set<Course> optionalCourses = new LinkedHashSet<>();
-        optionalCourses.add(new Course("STAT", "02360", "Probability and Random Variables", 30, "R"));
-        optionalCourses.add(new Course("STAT", "02361", "Mathematical Statistics", 20, "R"));
-        optionalCourses.add(new Course("STAT", "02340", "Elements of Statistical Learning", 3, "R"));
-        optionalCourses.add(new Course("STAT", "02371", "Design of Experiments: Analysis of Variance", 3, "R"));
-        optionalCourses.add(new Course("STAT", "02286", "Probability and Statistics for ECE", 3, "R"));
-        optionalCourses.add(new Course("STAT", "02290", "Probability and Statistics Inference for Computing Systems", 3, "R"));
+    public static Set<Course> getMiscCourses() {
+        Set<Course> miscCourses = new LinkedHashSet<>();
+        miscCourses.add(new Course("STAT", "02320", "Concepts in Statistical Data Analysis", 3, "R"));
+        miscCourses.add(new Course("STAT", "02360", "Probability and Random Variables", 3, "R"));
+        miscCourses.add(new Course("STAT", "02361", "Mathematical Statistics", 3, "R"));
+        miscCourses.add(new Course("STAT", "02340", "Elements of Statistical Learning", 3, "R"));
+        miscCourses.add(new Course("STAT", "02360", "Probability and Random Variables", 3, "R"));
+        miscCourses.add(new Course("STAT", "02371", "Design of Experiments: Analysis of Variance", 3, "R"));
+        miscCourses.add(new Course("STAT", "02286", "Probability and Statistics for ECE", 3, "R"));
+        miscCourses.add(new Course("STAT", "02290", "Probability and Statistics Inference for Computing Systems", 3, "R"));
 
-        optionalCourses.add(new Course("ECON", "04101", "Intro to Economics: Macroeconomic Perspective", 3, "R"));
+        miscCourses.add(new Course("ECON", "04101", "Intro to Economics: Macroeconomic Perspective", 3, "R"));
+        miscCourses.add(new Course("PHIL", "09369", "Philosophy of Science", 3, "R"));
+        miscCourses.add(new Course("PHIL", "09261", "Philosophical Perspective on Science", 3, "R"));
 
-        optionalCourses.add(new Course("COMP", "01111", "College Composition I", 3, "R"));
-        optionalCourses.add(new Course("COMP", "01112", "College Composition II", 3, "R"));
+        miscCourses.add(new Course("COMP", "01111", "College Composition I", 3, "R"));
+        miscCourses.add(new Course("COMP", "01112", "College Composition II", 3, "R"));
 
-        optionalCourses.add(new Course("GERM", "03100", "Masterpieces in German Literature", 3, "R"));
+        miscCourses.add(new Course("GERM", "03100", "Masterpieces in German Literature", 3, "R"));
 
-        optionalCourses.add(new Course("GEOG", "16100", "Earth, People, and Environment", 3, "R"));
-        optionalCourses.add(new Course("GEOG", "16160", "Digital Earth", 3, "R"));
+        miscCourses.add(new Course("CHEM", "06100", "Chemistry I", 4, "R"));
+        miscCourses.add(new Course("CHEM", "06101", "Chemistry II", 4, "R"));
 
-        optionalCourses.add(new Course("INTR", "01266", "Computer Science and Society", 3, "R"));
+        miscCourses.add(new Course("GEOG", "16100", "Earth, People, and Environment", 3, "R"));
+        miscCourses.add(new Course("GEOG", "16160", "Digital Earth", 3, "R"));
 
-        optionalCourses.add(new Course("CMS", "04205", "Public Speaking", 3, "R"));
+        miscCourses.add(new Course("INTR", "01266", "Computer Science and Society", 3, "R"));
 
-        optionalCourses.add(new Course("WA", "01302", "Technical Writing", 3, "R"));
-        return optionalCourses;
+        miscCourses.add(new Course("CMS", "04205", "Public Speaking", 3, "R"));
+
+        miscCourses.add(new Course("WA", "01302", "Technical Writing", 3, "R"));
+
+        return miscCourses;
     }
 
     public static boolean isCatalogCourse(String courseName) {
         boolean isInCatalog = false;
-        String[] catalogSubjectNames = {"STAT", "ECON", "COMP", "GERM", "INTR", "CMS", "WA"};
-        
-        for (String subjectName : catalogSubjectNames) {
-            isInCatalog = isCatalogCourse(courseName, subjectName, getOptionalCourses());
+        String[] catalogSubjectNames = {"STAT","PHIL", "ECON", "COMP", "GERM", "INTR", "CMS", "WA", "CHEM", "GEOG"};
 
-            if (isInCatalog == true) {
-                return true;
+        for (String subjectName : catalogSubjectNames) {
+            if (courseName.contains(subjectName)) {
+                isInCatalog = isCatalogCourse(courseName, subjectName, getMiscCourses());
+
+                if (isInCatalog == true) {
+                    return true;
+                }
             }
         }
 
@@ -58,6 +68,6 @@ public class MiscCatalog extends Catalog {
     }
 
     public static Course getCatalogCourse(String elective) {
-        return getCatalogCourse(elective, getOptionalCourses());
+        return getCatalogCourse(elective, getMiscCourses());
     }
 }
