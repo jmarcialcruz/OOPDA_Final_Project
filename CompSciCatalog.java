@@ -106,6 +106,9 @@ public class CompSciCatalog extends Catalog {
     }
 
     public static boolean isCatalogCourse(String courseName) {
+        if (!courseName.contains("CS ")) {
+            return false;
+        }
         return isCatalogCourse(courseName, "CS ", getAllCourses());
     }
 

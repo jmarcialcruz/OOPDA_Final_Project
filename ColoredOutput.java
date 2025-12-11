@@ -43,15 +43,23 @@ public class ColoredOutput {
     public static final String BRIGHT_WHITE_BACKGROUND = "\u001B[107m";
 
     public static void colorBrightBlue(String str) {
-        System.out.println(BRIGHT_BLUE + str + RESET);
+        System.out.print(BRIGHT_BLUE + str + RESET);
     }
 
     public static void colorBrightRed(String str) {
-        System.out.println(BRIGHT_RED + str + RESET);
+        System.out.print(BRIGHT_RED + str + RESET);
     }
 
     public static void colorBrightGreen(String str) {
-        System.out.println(BRIGHT_GREEN + str + RESET);
+        System.out.print(BRIGHT_GREEN + str + RESET);
+    }
+
+    public static void colorBrightCyan(String str) {
+        System.out.print(BRIGHT_CYAN + str + RESET);
+    }
+    
+    public static void colorRed(String str) {
+        System.out.print(RED + str + RESET);
     }
     
     public static void colorBlack(String str) {

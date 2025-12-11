@@ -30,7 +30,7 @@ public class Worksheet {
 
         if (totalCredits >= 90) {
             classStanding = "Senior";
-        } 
+        }
         else if (totalCredits >= 60) {
             classStanding = "Junior";
         }
@@ -70,7 +70,7 @@ public class Worksheet {
     }
 
     public double calculateGPA() {
-        double totalQualityPoints = 0; 
+        double totalQualityPoints = 0;
         double totalCredits = 0;
 
         for(Course course : degreePlan.getCompletedCoursework()) {
@@ -84,7 +84,7 @@ public class Worksheet {
         else {
             getDegreePlan().unsetProgressBit(0);
         }
-        
+
         return totalQualityPoints / totalCredits;
     }
 
@@ -103,7 +103,7 @@ public class Worksheet {
         }
 
         int progressPercentage = (int) ((completedCredits/creditReq) * 100);
-        
+
         if (progressPercentage > 100) {
             return 100;
         }
@@ -129,7 +129,7 @@ public class Worksheet {
             }
         }
 
-        ColoredOutput.colorBrightGreen(" [" + percentBarStr + "]\n");
+        ColoredOutput.colorBrightGreen(" [" + percentBarStr + "]\n\n");
     }
 
     public void displayWorksheetHeader() {
@@ -145,90 +145,63 @@ public class Worksheet {
     }
 
     private void displaySectionHeader(String header) {
-        System.out.println(ColoredOutput.BRIGHT_BLUE + "________________________________" + header + "________________________________" + ColoredOutput.RESET);
+        ColoredOutput.colorBrightBlue("________________________________" + header + "________________________________\n");
     }
 
     private void displayProgressStatus(int index, String str) {
         int progressStatus = degreePlan.getProgressBit(index);
 
-        if (progressStatus == 1) {
-            System.out.print(ColoredOutput.BRIGHT_GREEN + "[Y]" + ColoredOutput.RESET);
-        }
-        else {
-            System.out.print(ColoredOutput.RED + "[N]" + ColoredOutput.RESET);
-        }
-        
-        System.out.println(ColoredOutput.BRIGHT_CYAN + str + ColoredOutput.RESET);
+        switch (progressStatus) {
+            case 1 ->  ColoredOutput.colorBrightGreen("[Y]");
+            default -> ColoredOutput.colorRed("[N]");
+        };
+
+        ColoredOutput.colorBrightCyan(str);
     }
 
     private void displayDegreeProgressSection() {
-        System.out.println(ColoredOutput.BRIGHT_BLUE + "________________________________DEGREE PROGRESS________________________________" + ColoredOutput.RESET);
-        displayProgressStatus(0, " 120 credits are required for this degree for graduation");
-        displayProgressStatus(1, " Minimum 30 credits Taken in Residence");
-        displayProgressStatus(2, " Minimum 2.0 GPA Requirement");
-        displayProgressStatus(3, " Rowan Experience Requirements");
-        displayProgressStatus(4, " Rowan Core Course");
-        displayProgressStatus(5, " Non Program Electives");
-        displayProgressStatus(6, " Major Requirements (Includes Restricted Electives)");
-        displayProgressStatus(7, " Free Elective Requirement\n");
+        ColoredOutput.colorBrightBlue("________________________________DEGREE PROGRESS________________________________\n");
+        displayProgressStatus(0, " 120 credits are required for this degree for graduation\n");
+        displayProgressStatus(1, " Minimum 30 credits Taken in Residence\n");
+        displayProgressStatus(2, " Minimum 2.0 GPA Requirement\n");
+        displayProgressStatus(3, " Rowan Experience Requirements\n");
+        displayProgressStatus(4, " Rowan Core Course\n");
+        displayProgressStatus(5, " Non Program Electives\n");
+        displayProgressStatus(6, " Major Requirements (Includes Restricted Electives)\n");
+        displayProgressStatus(7, " Free Elective Requirement\n\n");
         displayDegreeProgressBar();
     }
 
     public void displayWorksheetInfo() {
-        System.out.println(ColoredOutput.BRIGHT_BLUE + "________________________________WORKSHEET INFO________________________________" + ColoredOutput.RESET);
+        ColoredOutput.colorBrightBlue("________________________________WORKSHEET INFO________________________________\n");
         displayWorksheetHeader();
         displayDegreeProgressSection();
 
         getDegreePlan().displayPlanInfo();
     }
 
-    public boolean isValidNumericGrade(String letterGrade) {
-        if (letterGrade.length() > 2) {
-            return false;
-        }
-        else {
-            switch(letterGrade) {
-                case "A-"   : return true;
-                case "B+"   : return true;
-                case "B-"   : return true;
-                case "C+"   : return true;
-                case "C-"   : return true;
-                case "D+"   : return true;
-            }
-        }
-
-        if (letterGrade.length() > 1) {
-            return false;
-        }
-        else {
-            switch(letterGrade) {
-                case "A"    : return true;
-                case "B"    : return true;
-                case "C"    : return true;
-                case "D"    : return true;
-                case "F"    : return true;
-                default     : 
-                    System.out.println("Invalid Letter Grade"); 
-                    return false;
-            }
-        }
+    public boolean isValidLetterGrade(String letterGrade) {
+        return switch (letterGrade) {
+            case "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "F" -> true;
+                default -> false;
+        };
     }
 
     public double getNumericGrade(String letterGrade) {
-        switch(letterGrade) {
-            case "A"    : return 4.0;
-            case "A-"   : return 3.7;
-            case "B+"   : return 3.3;
-            case "B"    : return 3.0;
-            case "B-"   : return 2.7;
-            case "C+"   : return 2.3;
-            case "C"    : return 2.0;
-            case "C-"   : return 1.7;
-            case "D+"   : return 1.3;
-            case "D"    : return 1.0;
-            case "F"    : return 0.0;
-            default     : return 0.0;
-        }
+        return switch(letterGrade) {
+            case "A"  -> 4.0;
+            case "A-" -> 3.7;
+            case "B+" -> 3.3;
+            case "B"  -> 3.0;
+            case "B-" -> 2.7;
+            case "C+" -> 2.3;
+            case "C"  -> 2.0;
+            case "C-" -> 1.7;
+            case "D+" -> 1.3;
+            case "D"  -> 1.0;
+            case "F"  -> 0.0;
+            default   -> -1.0;
+        };
     }
 }
 

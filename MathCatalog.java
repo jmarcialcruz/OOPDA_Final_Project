@@ -100,6 +100,9 @@ public class MathCatalog extends Catalog {
     }
 
     public static boolean isCatalogCourse(String courseName) {
+        if (!courseName.contains("MATH ")) {
+            return false;
+        }
         return isCatalogCourse(courseName, "MATH ", getAllCourses());
     }
 

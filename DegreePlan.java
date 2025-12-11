@@ -4,22 +4,16 @@ import java.util.LinkedHashSet;
 import java.util.ArrayList;
 
 public class DegreePlan extends Degree {
-    private int progressBitmap;
-    private int degreeProgress;
     private int degreeCreditsReq;
     private int freeElectiveCreditsReq;
     private int restrictedElectiveCreditsReq;
-    private String advisor;
-    private String advisorEmail;
     private Set<Course> requiredCoursework;
     private List<Set<Course>> degreeSectionList;
 
     DegreePlan(String fieldOfStudy) {
         super(fieldOfStudy);
-        this.degreeProgress = 0;
         this.requiredCoursework = new LinkedHashSet<>();
         this.degreeSectionList = new ArrayList<>();
-        this.progressBitmap = 0;
     }
 
     protected void setFreeElectiveCreditsReq(int credits) {
@@ -50,45 +44,6 @@ public class DegreePlan extends Degree {
 
     public List<Set<Course>> getDegreeSectionList() {
         return this.degreeSectionList;
-    }
-
-    public void setProgressBit(int index) {
-        int statusBit = 1 << index;
-        progressBitmap |= statusBit;
-    }
-
-    public void unsetProgressBit(int index) {
-        int statusBit = 1 << index;
-        progressBitmap &= ~statusBit;
-    }
-
-    public int getProgressBit(int index) {
-        int statusBit = 1 & (progressBitmap >> index);
-        return statusBit;
-    }
-
-    public int getProgressBitmap() {
-        return this.progressBitmap;
-    }
-
-    public String getAdvisor() {
-        return this.advisor;
-    }
-
-    protected void setAdvisor(String advisor) {
-        this.advisor = advisor;
-    }
-
-    public String getAdvisorEmail() {
-        return this.advisorEmail;
-    }
-
-    protected void setAdvisorEmail(String advisorEmail) {
-        this.advisorEmail = advisorEmail;
-    }
-
-    public int getDegreeProgress() {
-        return this.degreeProgress;
     }
 
     public int getDegreeCreditsReq() {
@@ -166,27 +121,13 @@ public class DegreePlan extends Degree {
         }
     }
 
-    protected void displayRestrictedElectives(Set<Course> electiveCoursework, int creditReq) {
-        Set<Course> restrictedElectiveCourses = new LinkedHashSet<>(getCompletedCoursework());
-        restrictedElectiveCourses.removeAll(getRequiredCoursework());
-
-        restrictedElectiveCourses.retainAll(electiveCoursework);
-
-        if (restrictedElectiveCourses.isEmpty()) {
-            System.out.println();
-            return;
-        }
-
-        int totalCredits = 0;
-
-        for (Course course : restrictedElectiveCourses) {
-            totalCredits += course.getCredits();
-
+    private void displayColoredCourses (Set<Course> coursework) {
+        for (Course course : coursework) {
             if (course.getGrade().equals("R")){
                 System.out.print(ColoredOutput.RED);
             }
             else if (course.getGrade().equals("F")){
-                System.out.print(ColoredOutput.BRIGHT_YELLOW);
+                System.out.print(ColoredOutput.YELLOW);
             }
             else {
                 System.out.print(ColoredOutput.GREEN);
@@ -194,14 +135,41 @@ public class DegreePlan extends Degree {
 
             course.displaySelectionInfo();
             System.out.println();
+        }
+        System.out.println(ColoredOutput.RESET);
+    }
+
+    protected void displayEachCourse(Set<Course> selectedCoursework) {
+        Set<Course> coursework = new LinkedHashSet<>(getRequiredCoursework());
+        coursework.retainAll(selectedCoursework);
+
+        displayColoredCourses(coursework);
+    }
+
+    // Add comment here for restricted electives
+    protected void displayRestrictedElectives(Set<Course> electiveCoursework, int creditReq) {
+        Set<Course> electiveCourses = new LinkedHashSet<>(getCompletedCoursework());
+        electiveCourses.removeAll(getRequiredCoursework());
+        electiveCourses.retainAll(electiveCoursework);
+
+        if (electiveCourses.isEmpty()) {
+            System.out.println();
+            return;
+        }
+
+        int totalCredits = 0;
+        Set<Course> restrictedElectiveCourses = new LinkedHashSet<>();
+
+        for (Course course : electiveCourses) {
+            totalCredits += course.getCredits();
+            restrictedElectiveCourses.add(course);
 
             if (totalCredits > creditReq) {
                 break;
             }
-            
         }
 
-        System.out.println(ColoredOutput.RESET);
+        displayColoredCourses(restrictedElectiveCourses);
     }
 
     // TODO: Reduce size of this method
@@ -236,43 +204,7 @@ public class DegreePlan extends Degree {
         freeElectiveCourses.removeAll(electiveCoursework);
         freeElectiveCourses.addAll(restrictedElectiveCourses);
 
-        for (Course freeElective : freeElectiveCourses) {
-            if (freeElective.getGrade().equals("R")){
-                System.out.print(ColoredOutput.RED);
-            }
-            else if (freeElective.getGrade().equals("F")){
-                System.out.print(ColoredOutput.BRIGHT_YELLOW);
-            }
-            else {
-                System.out.print(ColoredOutput.GREEN);
-            }
-
-            freeElective.displaySelectionInfo();
-            System.out.println();
-        }
-        System.out.println(ColoredOutput.RESET);
-    }
-
-    protected void displayEachCourse(Set<Course> selectedCoursework) {
-        Set<Course> coursework = new LinkedHashSet<>(getRequiredCoursework());
-        coursework.retainAll(selectedCoursework);
-
-        for (Course course : coursework) {
-            if (course.getGrade().equals("R")){
-                System.out.print(ColoredOutput.RED);
-            }
-            else if (course.getGrade().equals("F")){
-                System.out.print(ColoredOutput.BRIGHT_YELLOW);
-            }
-            else {
-                System.out.print(ColoredOutput.GREEN);
-            }
-
-            course.displaySelectionInfo();
-            System.out.println();
-        }
-
-        System.out.println(ColoredOutput.RESET);
+        displayColoredCourses(freeElectiveCourses);
     }
 
     // Only updates required coursework grade once
@@ -285,10 +217,8 @@ public class DegreePlan extends Degree {
     }
 
     // TODO: Find a solution to this issue for the subclass methods
-    public void displayPlanInfo() {
-    }
+    public void displayPlanInfo() {}
 
-    public void getDegreeSectionProgress() {
-    }
+    public void getDegreeSectionProgress() {}
 }
 

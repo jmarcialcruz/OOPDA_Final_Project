@@ -89,6 +89,10 @@ public class PhysicsCatalog extends Catalog {
     }
 
     public static boolean isCatalogCourse(String courseName) {
+        if (!courseName.contains("PHYS ")) {
+            return false;
+        }
+
         return isCatalogCourse(courseName, "PHYS ", getAllCourses());
     }
 

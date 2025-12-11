@@ -5,7 +5,7 @@ import java.util.Scanner;
 import java.lang.System;
 import java.util.InputMismatchException;
 
-public class DegreeWorks {
+public class DegreeTracker {
     public static void main(String[] args) {
         Scanner userInput = new Scanner(System.in);
 
@@ -182,7 +182,7 @@ COURSE_SEL:
                 System.out.print("Enter letter grade: ");
                 String grade = userInput.nextLine().toUpperCase();
 
-                if (!worksheetList.get(selectedWorksheet).isValidNumericGrade(grade)) {
+                if (!worksheetList.get(selectedWorksheet).isValidLetterGrade(grade)) {
                     System.out.println("\nENTER A VALID GRADE!\n");
                     continue COURSE_SEL;
                 }
