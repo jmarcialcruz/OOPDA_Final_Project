@@ -172,7 +172,6 @@ public class DegreePlan extends Degree {
         displayColoredCourses(restrictedElectiveCourses);
     }
 
-    // TODO: Reduce size of this method
     protected void displayFreeElectiveCourses(Set<Course> electiveCoursework, int creditReq) {
         // Base case for checking for free electives
         if (getRequiredCoursework().containsAll(getCompletedCoursework())) {
@@ -216,7 +215,16 @@ public class DegreePlan extends Degree {
         }
     }
 
-    // TODO: Find a solution to this issue for the subclass methods
+    // Add comment here
+    public void updateRequiredCoursework(Course course) {
+        for (Course reqCourse : requiredCoursework) {
+            if (reqCourse.equals(course) && !reqCourse.getGrade().equals("R")) {
+                reqCourse.setGrade("R");
+            }
+        }
+    }
+
+    // Methods will be overriden in subclasses
     public void displayPlanInfo() {}
 
     public void getDegreeSectionProgress() {}

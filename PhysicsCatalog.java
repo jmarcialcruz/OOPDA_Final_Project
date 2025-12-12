@@ -22,7 +22,6 @@ public class PhysicsCatalog extends Catalog {
     public static Set<Course> getAllCourses() {
         Set<Course> allCourses = new LinkedHashSet<>();
         allCourses.addAll(getMajorRequiredCourses());
-        allCourses.addAll(getElectiveCourses());
         allCourses.addAll(getOptionalCourses());
         return allCourses;
     }

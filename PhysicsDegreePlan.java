@@ -18,6 +18,7 @@ public final class PhysicsDegreePlan extends DegreePlan implements DegreeInfo {
         addRequiredCoursework(PhysicsCatalog.getRowanCoreCourses());
     }
 
+    @Override
     public void getDegreeSectionProgress() {
         getDegreeSectionProgress(PhysicsCatalog.getNumberOfSections(), PhysicsCatalog.getElectiveCourses());
     }
@@ -52,6 +53,7 @@ public final class PhysicsDegreePlan extends DegreePlan implements DegreeInfo {
         displayFreeElectiveCourses(PhysicsCatalog.getElectiveCourses(), getRestrictedElectiveCreditsReq());
     }
 
+    @Override
     public void displayPlanInfo() {
         displayRowanExpInfo();
         displayRowanCoreInfo();

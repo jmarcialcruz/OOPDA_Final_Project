@@ -3,8 +3,6 @@ public class Worksheet {
     private String classStanding;
     private DegreePlan degreePlan;
 
-    // TODO: Fix progress percent bar, exceeds 100 percent due to credits
-
     Worksheet(DegreePlan degreePlan) {
         this.degreePlan = degreePlan;
     }
@@ -16,6 +14,7 @@ public class Worksheet {
         }
         else if (getDegreePlan().getCompletedCredits() == 0) {
             academicStanding = "N/A";
+            getDegreePlan().unsetProgressBit(2);
         }
         else {
             academicStanding = "NOTICE";
@@ -54,6 +53,16 @@ public class Worksheet {
 
         this.degreePlan.addToCompletedCoursework(course, grade);
         this.degreePlan.updateRequiredCoursework(course, grade);
+    }
+
+    public void updateDegreePlanCoursework(Course course) {
+        if (!degreePlan.getCompletedCoursework().contains(course)) {
+            System.out.println("\nERROR: Course cannot be removed!");
+            return;
+        }
+
+        this.degreePlan.removeFromCompletedCoursework(course);
+        this.degreePlan.updateRequiredCoursework(course);
     }
 
     public DegreePlan getDegreePlan() {
@@ -104,8 +113,11 @@ public class Worksheet {
 
         int progressPercentage = (int) ((completedCredits/creditReq) * 100);
 
-        if (progressPercentage > 100) {
+        if (degreePlan.getProgressBitmap() == 0xFF ) {
             return 100;
+        }
+        else if (progressPercentage > 99) {
+            return 99;
         }
         else{
             return progressPercentage;

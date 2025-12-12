@@ -67,6 +67,21 @@ public class MiscCatalog extends Catalog {
         return false;
     }
 
+    public static void displayAllElectiveCourses(Set<Course> requiredCoursework, Set<Course> completedCoursework) {
+        Set<Course> electives = new LinkedHashSet<>();
+        electives.addAll(CompSciCatalog.getAllCourses());
+        electives.addAll(MathCatalog.getAllCourses());
+        electives.addAll(PhysicsCatalog.getAllCourses());
+        electives.addAll(MiscCatalog.getMiscCourses());
+        electives.removeAll(requiredCoursework);
+        electives.removeAll(completedCoursework);
+
+        for (Course course : electives) {
+            course.displayQuickInfo();
+        }
+        System.out.println();
+    }
+
     public static Course getCatalogCourse(String elective) {
         return getCatalogCourse(elective, getMiscCourses());
     }

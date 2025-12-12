@@ -26,7 +26,7 @@ public abstract class Degree {
         return this.coursework;
     }
 
-    public void setFieldOfStudy(String fieldOfStudy) {
+    protected void setFieldOfStudy(String fieldOfStudy) {
         this.fieldOfStudy = fieldOfStudy;
     }
 

@@ -12,12 +12,8 @@ public class DegreeTracker {
         List<Worksheet> worksheetList = new ArrayList<>();
         int selectedWorksheet;
 
-        // TODO: Prompt user if they want to see entire catalog
-        // TODO: Add option to add minor to existing degree plan (maybe CUGs?)
-        // TODO: Change worksheetList into a set and reject similar degree plans
-        
         System.out.println("=================================");
-        System.out.println("==== Welcome to Degree Works ====");
+        System.out.println("==== Welcome to Degree Tracker ====");
         System.out.println("=================================");
 
         while (true) {
@@ -101,16 +97,16 @@ MAIN_MENU:
                                 System.out.print("Choose a degree plan: ");
                                 selection  = userInput.nextInt();
 
-                                DegreePlan degree;
+                                DegreePlan degreePlan;
 
                                 if (selection == 1) {
-                                    degree = new PhysicsDegreePlan();
+                                    degreePlan = new PhysicsDegreePlan();
                                 }
                                 else if (selection == 2) {
-                                    degree = new MathDegreePlan();
+                                    degreePlan = new MathDegreePlan();
                                 }
                                 else if (selection == 3) {
-                                    degree = new CompSciDegreePlan();
+                                    degreePlan = new CompSciDegreePlan();
                                 }
                                 else if (selection == 4) {
                                     System.out.println();
@@ -121,7 +117,7 @@ MAIN_MENU:
                                     continue;
                                 }
 
-                                worksheet = new Worksheet(degree);
+                                worksheet = new Worksheet(degreePlan);
                                 break;
                             }
                             catch (InputMismatchException e) {
@@ -156,51 +152,91 @@ MAIN_MENU:
 
 COURSE_SEL:
             while(true) {
+                Worksheet currentWorksheet = worksheetList.get(selectedWorksheet);
+                DegreePlan currentDegreePlan = currentWorksheet.getDegreePlan();
 
-                worksheetList.get(selectedWorksheet).displayWorksheetInfo();
-                System.out.print("Add a course (y) or return to main menu (n): ");
-                String selection = userInput.nextLine();
+                currentWorksheet.displayWorksheetInfo();
 
-                if (selection.equalsIgnoreCase("n")){
-                    System.out.println();
-                    break COURSE_SEL;
-                }
-                else if (!selection.equalsIgnoreCase("y")){
-                    System.out.println();
-                    continue COURSE_SEL;
-                }
+                while (true) {
+                    System.out.print("Continue with course selection (y) or return to main menu (n): ");
+                    String selection = userInput.nextLine();
 
-                System.out.print("Enter Course #: ");
-                String course = userInput.nextLine().toUpperCase();
-
-                // Checks for minimum amount characters for course id i.e. CS 00100 has 8 characters
-                if (course.length() < 8) {
-                    System.out.println("\nENTER A VALID COURSE #!\n");
-                    continue COURSE_SEL;
+                    if (selection.equalsIgnoreCase("n")){
+                        System.out.println();
+                        break COURSE_SEL;
+                    }
+                    else if (!selection.equalsIgnoreCase("y")){
+                        continue;
+                    }
+                    break;
                 }
 
-                System.out.print("Enter letter grade: ");
-                String grade = userInput.nextLine().toUpperCase();
+                while (true) {
+                    System.out.print("Add course (1) or see electives then add course (2) or remove course (3): ");
+                    String selection = userInput.nextLine();
 
-                if (!worksheetList.get(selectedWorksheet).isValidLetterGrade(grade)) {
-                    System.out.println("\nENTER A VALID GRADE!\n");
-                    continue COURSE_SEL;
-                }
+                    if (selection.equals("1") || selection.equals("2")){
+                        if (selection.equals("2")) {
+                            MiscCatalog.displayAllElectiveCourses(currentDegreePlan.getRequiredCoursework(), currentDegreePlan.getCompletedCoursework());
+                        }
+                        
+                        System.out.print("Enter Course #: ");
+                        String course = userInput.nextLine().toUpperCase();
+                        
+                        System.out.print("Enter letter grade: ");
+                        String grade = userInput.nextLine().toUpperCase();
 
-                if (CompSciCatalog.isCatalogCourse(course)) {
-                    worksheetList.get(selectedWorksheet).updateDegreePlanCoursework(CompSciCatalog.getCatalogCourse(course), grade);
-                }
-                else if (MathCatalog.isCatalogCourse(course)) {
-                    worksheetList.get(selectedWorksheet).updateDegreePlanCoursework(MathCatalog.getCatalogCourse(course), grade);
-                }
-                else if (PhysicsCatalog.isCatalogCourse(course)) {
-                    worksheetList.get(selectedWorksheet).updateDegreePlanCoursework(PhysicsCatalog.getCatalogCourse(course), grade);
-                }
-                else if (MiscCatalog.isCatalogCourse(course)) {
-                    worksheetList.get(selectedWorksheet).updateDegreePlanCoursework(MiscCatalog.getCatalogCourse(course), grade);
-                }
-                else {
-                    System.out.println("\nCOURSE NOT FOUND!\n");
+                        if (!currentWorksheet.isValidLetterGrade(grade) || course.length() < 8) {
+                            System.out.println("\nENTER A VALID COURSE AND GRADE!\n");
+                            continue;
+                        }
+
+                        if (CompSciCatalog.isCatalogCourse(course)) {
+                            currentWorksheet.updateDegreePlanCoursework(CompSciCatalog.getCatalogCourse(course), grade);
+                        }
+                        else if (MathCatalog.isCatalogCourse(course)) {
+                            currentWorksheet.updateDegreePlanCoursework(MathCatalog.getCatalogCourse(course), grade);
+                        }
+                        else if (PhysicsCatalog.isCatalogCourse(course)) {
+                            currentWorksheet.updateDegreePlanCoursework(PhysicsCatalog.getCatalogCourse(course), grade);
+                        }
+                        else if (MiscCatalog.isCatalogCourse(course)) {
+                            currentWorksheet.updateDegreePlanCoursework(MiscCatalog.getCatalogCourse(course), grade);
+                        }
+                        else {
+                            System.out.println("\nCOURSE NOT FOUND!\n");
+                            continue;
+                        }
+                        break;
+
+                    }
+
+                    else if (selection.equals("3")){
+                        System.out.print("Enter Course #: ");
+                        String course = userInput.nextLine().toUpperCase();
+
+                        if (CompSciCatalog.isCatalogCourse(course)) {
+                            currentWorksheet.updateDegreePlanCoursework(CompSciCatalog.getCatalogCourse(course));
+                        }
+                        else if (MathCatalog.isCatalogCourse(course)) {
+                            currentWorksheet.updateDegreePlanCoursework(MathCatalog.getCatalogCourse(course));
+                        }
+                        else if (PhysicsCatalog.isCatalogCourse(course)) {
+                            currentWorksheet.updateDegreePlanCoursework(PhysicsCatalog.getCatalogCourse(course));
+                        }
+                        else if (MiscCatalog.isCatalogCourse(course)) {
+                            currentWorksheet.updateDegreePlanCoursework(MiscCatalog.getCatalogCourse(course));
+                        }
+                        else {
+                            System.out.println("\nCOURSE NOT FOUND!\n");
+                            continue;
+                        }
+                        break;
+                    }
+
+                    else {
+                        continue;
+                    }
                 }
 
                 System.out.println();

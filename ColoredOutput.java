@@ -65,4 +65,8 @@ public class ColoredOutput {
     public static void colorBlack(String str) {
         System.out.print(BLACK + str + RESET);
     }
+
+    public static void colorCyan(String str) {
+        System.out.print(CYAN + str + RESET);
+    }
 }

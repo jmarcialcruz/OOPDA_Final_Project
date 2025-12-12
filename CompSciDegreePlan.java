@@ -18,6 +18,7 @@ public final class CompSciDegreePlan extends DegreePlan implements DegreeInfo {
         addRequiredCoursework(CompSciCatalog.getRowanCoreCourses());
     }
 
+    @Override
     public void getDegreeSectionProgress() {
         getDegreeSectionProgress(CompSciCatalog.getNumberOfSections(), CompSciCatalog.getElectiveCourses());
     }
@@ -52,6 +53,7 @@ public final class CompSciDegreePlan extends DegreePlan implements DegreeInfo {
         displayFreeElectiveCourses(CompSciCatalog.getElectiveCourses(), getRestrictedElectiveCreditsReq());
     }
 
+    @Override
     public void displayPlanInfo() {
         displayRowanExpInfo();
         displayRowanCoreInfo();

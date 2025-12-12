@@ -18,6 +18,7 @@ public final class MathDegreePlan extends DegreePlan implements DegreeInfo {
         addRequiredCoursework(MathCatalog.getRowanCoreCourses());
     }
 
+    @Override
     public void getDegreeSectionProgress() {
         getDegreeSectionProgress(MathCatalog.getNumberOfSections(), MathCatalog.getElectiveCourses());
     }
@@ -52,6 +53,7 @@ public final class MathDegreePlan extends DegreePlan implements DegreeInfo {
         displayFreeElectiveCourses(MathCatalog.getElectiveCourses(), getRestrictedElectiveCreditsReq());
     }
 
+    @Override
     public void displayPlanInfo() {
         displayRowanExpInfo();
         displayRowanCoreInfo();
