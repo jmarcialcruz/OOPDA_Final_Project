@@ -3,23 +3,28 @@ import java.util.List;
 import java.util.LinkedHashSet;
 import java.util.ArrayList;
 
+/**
+ * Represents a specific degree plan (e.g., Computer Science).
+ * 
+ * This class extends Degree class to manage the specific requirements of a major,
+ * including required courses, elective credits, and degree sections (modules).
+ * It calculates progress towards graduation by comparing completed coursework
+ * against these requirements.
+ *
+ * @author  Jordi Marcial Cruz
+ */
+
 public class DegreePlan extends Degree {
-    private int progressBitmap;
-    private int degreeProgress;
     private int degreeCreditsReq;
     private int freeElectiveCreditsReq;
     private int restrictedElectiveCreditsReq;
-    private String advisor;
-    private String advisorEmail;
     private Set<Course> requiredCoursework;
     private List<Set<Course>> degreeSectionList;
 
     DegreePlan(String fieldOfStudy) {
         super(fieldOfStudy);
-        this.degreeProgress = 0;
         this.requiredCoursework = new LinkedHashSet<>();
         this.degreeSectionList = new ArrayList<>();
-        this.progressBitmap = 0;
     }
 
     protected void setFreeElectiveCreditsReq(int credits) {
@@ -38,6 +43,7 @@ public class DegreePlan extends Degree {
         return this.restrictedElectiveCreditsReq;
     }
 
+    // Initializes the list of degree sections.
     protected void createDegreeSections(int index) {
         for (int i = 0; i < index; i++) {
             degreeSectionList.add(new LinkedHashSet<>());
@@ -50,45 +56,6 @@ public class DegreePlan extends Degree {
 
     public List<Set<Course>> getDegreeSectionList() {
         return this.degreeSectionList;
-    }
-
-    public void setProgressBit(int index) {
-        int statusBit = 1 << index;
-        progressBitmap |= statusBit;
-    }
-
-    public void unsetProgressBit(int index) {
-        int statusBit = 1 << index;
-        progressBitmap &= ~statusBit;
-    }
-
-    public int getProgressBit(int index) {
-        int statusBit = 1 & (progressBitmap >> index);
-        return statusBit;
-    }
-
-    public int getProgressBitmap() {
-        return this.progressBitmap;
-    }
-
-    public String getAdvisor() {
-        return this.advisor;
-    }
-
-    protected void setAdvisor(String advisor) {
-        this.advisor = advisor;
-    }
-
-    public String getAdvisorEmail() {
-        return this.advisorEmail;
-    }
-
-    protected void setAdvisorEmail(String advisorEmail) {
-        this.advisorEmail = advisorEmail;
-    }
-
-    public int getDegreeProgress() {
-        return this.degreeProgress;
     }
 
     public int getDegreeCreditsReq() {
@@ -111,12 +78,19 @@ public class DegreePlan extends Degree {
         requiredCoursework.addAll(coursework);
     }
 
+    /**
+     * Calculates and updates the progress flags (bits) for the degree.
+     * This checks if specific sections of the degree (e.g., Core, Electives)
+     * are satisfied and sets the corresponding bits in the progress bitmap.
+     */
     public void getDegreeSectionProgress(int numberOfSections, Set<Course> electiveCourses) {
-        // Comment this later
+        // Part 1: Calculate Restricted Elective Progress 
+        // Create a subset of completed courses that are also valid electives
         Set<Course> restrictedElectives = new LinkedHashSet<>(getCompletedCoursework());
         restrictedElectives.retainAll(electiveCourses);
 
         int electiveCredits = 0;
+        // Sum credits until requirement is met
         for (Course course : restrictedElectives) {
             electiveCredits += course.getCredits();
 
@@ -126,9 +100,11 @@ public class DegreePlan extends Degree {
         }
 
         setRestrictedElectiveCredits(electiveCredits);
-        boolean hasReqElectiveCredits  = (getRestrictedElectiveCredits() > restrictedElectiveCreditsReq);
+        boolean hasReqElectiveCredits = (getRestrictedElectiveCredits() > restrictedElectiveCreditsReq);
 
-        // Comment this later
+        // Part 2: Check Standard Degree Sections 
+        // Iterate through sections and check completion
+        // Bits 3+ are used for section completion flags
         for (int i = 0; i < numberOfSections - 1; i++) {
             if (getCompletedCoursework().containsAll(degreeSectionList.get(i))) {
                 setProgressBit(i + 3);
@@ -138,7 +114,9 @@ public class DegreePlan extends Degree {
             }
         }
 
-        // Comment this later
+        // Part 3: Check Elective Section Completion 
+        // Checks if the specific elective section (index 3) AND credit counts are met
+        // Uses Bit 6 for this specific milestone
         if (getCompletedCoursework().containsAll(degreeSectionList.get(3)) && hasReqElectiveCredits) {
             setProgressBit(6);
         }
@@ -146,9 +124,10 @@ public class DegreePlan extends Degree {
             unsetProgressBit(6);
         }
 
-        // Comment this later
+        // Part 4: Calculate Free Electives 
         int reqCreditsCompleted = 0;
 
+        // Filter completed courses to only those that are explicitly required
         Set<Course> completedReqCoursework = new LinkedHashSet<>(getCompletedCoursework());
         completedReqCoursework.retainAll(getRequiredCoursework());
 
@@ -156,8 +135,10 @@ public class DegreePlan extends Degree {
             reqCreditsCompleted += reqCourse.getCredits();
         }
         
+        // Free electives = Total Completed - (Required + Restricted Electives used)
         setFreeElectiveCredits(getCompletedCredits() - reqCreditsCompleted - getRestrictedElectiveCredits());
 
+        // Check if free elective requirement is met (uses Bit 7)
         if (getFreeElectiveCredits() >= freeElectiveCreditsReq){
             setProgressBit(7);
         }
@@ -166,59 +147,77 @@ public class DegreePlan extends Degree {
         }
     }
 
+    private void displayColoredCourses (Set<Course> coursework) {
+        for (Course course : coursework) {
+            // Color code output based on grade status
+            if (course.getGrade().equals("R")){
+                System.out.print(ColoredOutput.RED); // Required/Missing
+            }
+            else if (course.getGrade().equals("F")){
+                System.out.print(ColoredOutput.YELLOW); // Failed
+            }
+            else {
+                System.out.print(ColoredOutput.GREEN); // Completed/Passed
+            }
+
+            course.displaySelectionInfo();
+            System.out.println();
+        }
+        System.out.println(ColoredOutput.RESET);
+    }
+
+    protected void displayEachCourse(Set<Course> selectedCoursework) {
+        // Filter required coursework to only show the selected subset
+        Set<Course> coursework = new LinkedHashSet<>(getRequiredCoursework());
+        coursework.retainAll(selectedCoursework);
+
+        displayColoredCourses(coursework);
+    }
+
+    // Filters and displays the restricted electives counting toward the degree.
     protected void displayRestrictedElectives(Set<Course> electiveCoursework, int creditReq) {
-        Set<Course> restrictedElectiveCourses = new LinkedHashSet<>(getCompletedCoursework());
-        restrictedElectiveCourses.removeAll(getRequiredCoursework());
+        // Filter completed courses: Remove core requirements, keep only valid electives
+        Set<Course> electiveCourses = new LinkedHashSet<>(getCompletedCoursework());
+        electiveCourses.removeAll(getRequiredCoursework());
+        electiveCourses.retainAll(electiveCoursework);
 
-        restrictedElectiveCourses.retainAll(electiveCoursework);
-
-        if (restrictedElectiveCourses.isEmpty()) {
+        if (electiveCourses.isEmpty()) {
             System.out.println();
             return;
         }
 
         int totalCredits = 0;
+        Set<Course> restrictedElectiveCourses = new LinkedHashSet<>();
 
-        for (Course course : restrictedElectiveCourses) {
+        // Add courses to the list until the credit requirement is filled
+        for (Course course : electiveCourses) {
             totalCredits += course.getCredits();
-
-            if (course.getGrade().equals("R")){
-                System.out.print(ColoredOutput.RED);
-            }
-            else if (course.getGrade().equals("F")){
-                System.out.print(ColoredOutput.BRIGHT_YELLOW);
-            }
-            else {
-                System.out.print(ColoredOutput.GREEN);
-            }
-
-            course.displaySelectionInfo();
-            System.out.println();
+            restrictedElectiveCourses.add(course);
 
             if (totalCredits > creditReq) {
                 break;
             }
-            
         }
 
-        System.out.println(ColoredOutput.RESET);
+        displayColoredCourses(restrictedElectiveCourses);
     }
 
-    // TODO: Reduce size of this method
     protected void displayFreeElectiveCourses(Set<Course> electiveCoursework, int creditReq) {
-        // Base case for checking for free electives
+        // Base case: If all required courses are done, just print newline
         if (getRequiredCoursework().containsAll(getCompletedCoursework())) {
             System.out.println();
             return;
         }
 
-        // Removes restricted electives allocated restricted elective section based on credit requirement
+        // Part 1: Identifies Restricted Electives used 
         Set<Course> restrictedElectiveCourses = new LinkedHashSet<>(getCompletedCoursework());
         restrictedElectiveCourses.removeAll(getRequiredCoursework());
         restrictedElectiveCourses.retainAll(electiveCoursework);
+        
         int totalCredits = 0;
-
         Set<Course> requiredRestricedElectiveCourses = new LinkedHashSet<>();
+        
+        // Calculate which courses were "consumed" by the restricted elective requirement
         for (Course course : restrictedElectiveCourses) {
             totalCredits += course.getCredits();
             requiredRestricedElectiveCourses.add(course);
@@ -228,67 +227,43 @@ public class DegreePlan extends Degree {
             }
         }
 
+        // Remove the consumed restricted electives from the pool
         restrictedElectiveCourses.removeAll(requiredRestricedElectiveCourses);
 
-        // Reduced set of restricted electives makes up the free elective coursework
+        // Part 2: Calculate Free Electives 
+        // Free electives = (Completed - Required - Valid Electives) + (Overflow/Unused Restricted Electives)
         Set<Course> freeElectiveCourses = new LinkedHashSet<>(getCompletedCoursework());
         freeElectiveCourses.removeAll(getRequiredCoursework());
         freeElectiveCourses.removeAll(electiveCoursework);
         freeElectiveCourses.addAll(restrictedElectiveCourses);
 
-        for (Course freeElective : freeElectiveCourses) {
-            if (freeElective.getGrade().equals("R")){
-                System.out.print(ColoredOutput.RED);
-            }
-            else if (freeElective.getGrade().equals("F")){
-                System.out.print(ColoredOutput.BRIGHT_YELLOW);
-            }
-            else {
-                System.out.print(ColoredOutput.GREEN);
-            }
-
-            freeElective.displaySelectionInfo();
-            System.out.println();
-        }
-        System.out.println(ColoredOutput.RESET);
+        displayColoredCourses(freeElectiveCourses);
     }
 
-    protected void displayEachCourse(Set<Course> selectedCoursework) {
-        Set<Course> coursework = new LinkedHashSet<>(getRequiredCoursework());
-        coursework.retainAll(selectedCoursework);
-
-        for (Course course : coursework) {
-            if (course.getGrade().equals("R")){
-                System.out.print(ColoredOutput.RED);
-            }
-            else if (course.getGrade().equals("F")){
-                System.out.print(ColoredOutput.BRIGHT_YELLOW);
-            }
-            else {
-                System.out.print(ColoredOutput.GREEN);
-            }
-
-            course.displaySelectionInfo();
-            System.out.println();
-        }
-
-        System.out.println(ColoredOutput.RESET);
-    }
-
-    // Only updates required coursework grade once
+    // Updates the grade of a required course in the plan.
+    // Only updates if the current status is "R" (Required/Not Taken).
     public void updateRequiredCoursework(Course course, String grade) {
         for (Course reqCourse : requiredCoursework) {
+            // Check if course matches AND is currently marked as 'Required' (uncompleted)
             if (reqCourse.equals(course) && reqCourse.getGrade().equals("R")) {
                 reqCourse.setGrade(grade);
             }
         }
     }
 
-    // TODO: Find a solution to this issue for the subclass methods
-    public void displayPlanInfo() {
+    // Resets a required course status back to "R" (Required).
+    // Used when a course was removed from completed coursework.
+    public void updateRequiredCoursework(Course course) {
+        for (Course reqCourse : requiredCoursework) {
+            // Check if course matches AND is NOT currently 'Required' (meaning it was previously completed)
+            if (reqCourse.equals(course) && !reqCourse.getGrade().equals("R")) {
+                reqCourse.setGrade("R");
+            }
+        }
     }
 
-    public void getDegreeSectionProgress() {
-    }
+    // Methods to be overridden by specific major subclasses
+    public void displayPlanInfo() {}
+
+    public void getDegreeSectionProgress() {}
 }
-

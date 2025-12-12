@@ -1,8 +1,17 @@
+/**
+ * Utility class for formatting console output using ANSI escape codes.
+ *
+ * This class provides a collection of constants for standard and background
+ * colors, as well as helper methods to print colored text strings.
+ *
+ * @author  Jordi Marcial Cruz
+ */
+
 public class ColoredOutput {
     // --- Control Codes ---
     public static final String RESET = "\u001B[0m";
 
-    // --- Standard Text Colors (Foreground) ---
+    // --- Standard Text Colors ---
     public static final String BLACK = "\u001B[30m";
     public static final String RED = "\u001B[31m";
     public static final String GREEN = "\u001B[32m";
@@ -22,7 +31,7 @@ public class ColoredOutput {
     public static final String CYAN_BACKGROUND = "\u001B[46m";
     public static final String WHITE_BACKGROUND = "\u001B[47m";
 
-    // --- Bright Text Colors (Foreground) ---
+    // --- Bright Text Colors ---
     public static final String BRIGHT_BLACK = "\u001B[90m";
     public static final String BRIGHT_RED = "\u001B[91m";
     public static final String BRIGHT_GREEN = "\u001B[92m";
@@ -43,18 +52,30 @@ public class ColoredOutput {
     public static final String BRIGHT_WHITE_BACKGROUND = "\u001B[107m";
 
     public static void colorBrightBlue(String str) {
-        System.out.println(BRIGHT_BLUE + str + RESET);
+        System.out.print(BRIGHT_BLUE + str + RESET);
     }
 
     public static void colorBrightRed(String str) {
-        System.out.println(BRIGHT_RED + str + RESET);
+        System.out.print(BRIGHT_RED + str + RESET);
     }
 
     public static void colorBrightGreen(String str) {
-        System.out.println(BRIGHT_GREEN + str + RESET);
+        System.out.print(BRIGHT_GREEN + str + RESET);
+    }
+
+    public static void colorBrightCyan(String str) {
+        System.out.print(BRIGHT_CYAN + str + RESET);
+    }
+    
+    public static void colorRed(String str) {
+        System.out.print(RED + str + RESET);
     }
     
     public static void colorBlack(String str) {
         System.out.print(BLACK + str + RESET);
+    }
+
+    public static void colorCyan(String str) {
+        System.out.print(CYAN + str + RESET);
     }
 }
