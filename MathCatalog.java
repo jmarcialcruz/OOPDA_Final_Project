@@ -3,6 +3,17 @@ import java.util.List;
 import java.util.LinkedHashSet;
 import java.util.ArrayList;
 
+/**
+ * Static catalog definition for the Mathematics degree program.
+ *
+ * This class serves as a database of all valid Math courses, including
+ * major requirements, restricted electives, and relevant cross-discipline
+ * courses (CS, Physics, Stats). It provides methods to retrieve specific
+ * subsets of courses for degree planning.
+ *
+ * @author  Jordi Marcial Cruz
+ */
+
 public class MathCatalog extends Catalog {
     private static List<Set<Course>> catalogSectionList = new ArrayList<>();
     private static final int numberOfSections = 4;
@@ -12,6 +23,7 @@ public class MathCatalog extends Catalog {
     }
 
     public static List<Set<Course>> getCatalogSectionList() {
+        catalogSectionList.clear();
         catalogSectionList.add(getRowanExpCourses());
         catalogSectionList.add(getRowanCoreCourses());
         catalogSectionList.add(getNonProgramCourses());
@@ -20,6 +32,7 @@ public class MathCatalog extends Catalog {
     }
 
     public static Set<Course> getAllCourses() {
+        // specific implementation that aggregates all Math-related courses into one set
         Set<Course> allCourses = new LinkedHashSet<>();
         allCourses.addAll(getMajorRequiredCourses());
         allCourses.addAll(getElectiveCourses());
@@ -29,14 +42,17 @@ public class MathCatalog extends Catalog {
 
     public static Set<Course> getMajorRequiredCourses() {
         Set<Course> majorRequiredCourses = new LinkedHashSet<>();
-        majorRequiredCourses.add(new Course("MATH", "03150", "Discrete Mathematics", 3, "R"));     
-        majorRequiredCourses.add(new Course("MATH", "01130", "Calculus I", 4, "R"));       
-        majorRequiredCourses.add(new Course("MATH", "01131", "Calculus II ", 4, "R"));     
-        majorRequiredCourses.add(new Course("MATH", "01230", "Calculus III ", 4, "R"));     
-        majorRequiredCourses.add(new Course("MATH", "01210", "Linear Algebra", 3, "R"));     
+        
+        // Lower division core (Calc sequence, Linear Algebra, etc.)
+        majorRequiredCourses.add(new Course("MATH", "03150", "Discrete Mathematics", 3, "R"));      
+        majorRequiredCourses.add(new Course("MATH", "01130", "Calculus I", 4, "R"));        
+        majorRequiredCourses.add(new Course("MATH", "01131", "Calculus II ", 4, "R"));      
+        majorRequiredCourses.add(new Course("MATH", "01230", "Calculus III ", 4, "R"));      
+        majorRequiredCourses.add(new Course("MATH", "01210", "Linear Algebra", 3, "R"));      
         majorRequiredCourses.add(new Course("MATH", "01231", "Ordinary Differential Equations", 3, "R")); 
         majorRequiredCourses.add(new Course("MATH", "01300", "Mathematical Proof Writing", 3, "R")); 
 
+        // Upper division core (Analysis, Modern Algebra, Seminar)
         majorRequiredCourses.add(new Course("MATH", "01340", "Modern Algebra I", 3, "R")); 
         majorRequiredCourses.add(new Course("MATH", "01330", "Intro to Real Analysis I", 3, "R")); 
         majorRequiredCourses.add(MiscCatalog.getCatalogCourse("STAT 02360"));
@@ -47,6 +63,7 @@ public class MathCatalog extends Catalog {
     }
 
     public static Set<Course> getNonProgramCourses(){
+        // Courses required for the Math degree but provided by other departments (CS, Physics)
         Set<Course> nonProgramCourses = new LinkedHashSet<>();
         nonProgramCourses.add(CompSciCatalog.getCatalogCourse("CS 04103"));
         nonProgramCourses.add(CompSciCatalog.getCatalogCourse("CS 04225"));
@@ -58,6 +75,7 @@ public class MathCatalog extends Catalog {
     }
 
     public static Set<Course> getRowanExpCourses() {
+        // "Rowan Experience" courses 
         Set<Course> rowanExpCourses = new LinkedHashSet<>();
         rowanExpCourses.add(MiscCatalog.getCatalogCourse("GERM 03100"));
         rowanExpCourses.add(MathCatalog.getCatalogCourse("MATH 01000")); 
@@ -67,6 +85,7 @@ public class MathCatalog extends Catalog {
     }
 
     public static Set<Course> getRowanCoreCourses() {
+        // Standard university core requirements
         Set<Course> rowanCoreCourses = new LinkedHashSet<>();
         rowanCoreCourses.add(MiscCatalog.getCatalogCourse("ECON 04101"));
         rowanCoreCourses.addAll(MiscCatalog.getStandardRowanCoreCourses());
@@ -74,24 +93,26 @@ public class MathCatalog extends Catalog {
     }
 
     public static Set<Course> getElectiveCourses() {
+        // List of valid upper-level Math electives
         Set<Course> electiveCourses = new LinkedHashSet<>();
-        electiveCourses.add(new Course("MATH", "01205", "Tech Tools for Discovering Mathematics", 2, "R"));       
+        electiveCourses.add(new Course("MATH", "01205", "Tech Tools for Discovering Mathematics", 2, "R"));        
         electiveCourses.add(new Course("MATH", "01310", "College Geometry", 4, "R")); 
-        electiveCourses.add(new Course("MATH", "01331", "Intro to Real Analysis II", 3, "R"));       
+        electiveCourses.add(new Course("MATH", "01331", "Intro to Real Analysis II", 3, "R"));        
         electiveCourses.add(new Course("MATH", "01341", "Modern Algebra II", 3, "R"));  
         electiveCourses.add(new Course("MATH", "01354", "Intro to Topology", 3, "R"));   
-        electiveCourses.add(new Course("MATH", "01332", "Intro to Numerical Analysis", 3, "R"));       
-        electiveCourses.add(new Course("MATH", "03400", "Applications of Mathematics", 3, "R"));       
-        electiveCourses.add(new Course("MATH", "01421", "Mathematics Field Experience", 3, "R"));       
-        electiveCourses.add(new Course("MATH", "01386", "Partial Differential Equations", 3, "R"));       
-        electiveCourses.add(new Course("MATH", "01352", "Theory of Numbers", 3, "R"));       
-        electiveCourses.add(new Course("MATH", "01410", "History of Mathematics", 3, "R"));       
-        electiveCourses.add(new Course("MATH", "03411", "Determinstic Models in Operations Research", 3, "R"));       
-        electiveCourses.add(new Course("MATH", "03412", "Stochastic Models in Operations Research", 3, "R"));       
+        electiveCourses.add(new Course("MATH", "01332", "Intro to Numerical Analysis", 3, "R"));        
+        electiveCourses.add(new Course("MATH", "03400", "Applications of Mathematics", 3, "R"));        
+        electiveCourses.add(new Course("MATH", "01421", "Mathematics Field Experience", 3, "R"));        
+        electiveCourses.add(new Course("MATH", "01386", "Partial Differential Equations", 3, "R"));        
+        electiveCourses.add(new Course("MATH", "01352", "Theory of Numbers", 3, "R"));        
+        electiveCourses.add(new Course("MATH", "01410", "History of Mathematics", 3, "R"));        
+        electiveCourses.add(new Course("MATH", "03411", "Determinstic Models in Operations Research", 3, "R"));        
+        electiveCourses.add(new Course("MATH", "03412", "Stochastic Models in Operations Research", 3, "R"));        
         return electiveCourses;
     }
 
     public static Set<Course> getOptionalCourses() {
+        // Courses that may be taken but aren't strictly required
         Set<Course> optionalCourses = new LinkedHashSet<>();
         optionalCourses.add(new Course("MATH", "01235", "Mathematics for Engineering Analysis", 4, "R")); 
         optionalCourses.add(new Course("MATH", "01000", "Mathematics Learning Community", 1, "R")); 
@@ -100,13 +121,16 @@ public class MathCatalog extends Catalog {
     }
 
     public static boolean isCatalogCourse(String courseName) {
+        // Basic filter: only check courses starting with "MATH "
         if (!courseName.contains("MATH ")) {
             return false;
         }
+        // Delegate to parent helper using the full Math course list
         return isCatalogCourse(courseName, "MATH ", getAllCourses());
     }
 
     public static Course getCatalogCourse(String elective) {
+        // Retrieve a course object from the full list by string ID
         return getCatalogCourse(elective, getAllCourses());
     }
 }

@@ -1,3 +1,13 @@
+/**
+ * Represents the active worksheet for a specific student's degree plan.
+ *
+ * This class acts as the primary controller for calculating GPA, academic
+ * standing, and degree progress. It aggregates data from the DegreePlan class
+ * to generate the final visual report/audit for the user.
+ *
+ * @author  Jordi Marcial Cruz
+ */
+
 public class Worksheet {
     private String academicStanding;
     private String classStanding;
@@ -8,8 +18,10 @@ public class Worksheet {
     }
 
     public String getAcademicStanding() {
+        // Evaluate GPA against the 2.0 minimum requirement
         if (calculateGPA() > 2.0) {
             academicStanding = "GOOD STANDING";
+            // Set Bit 2: GPA Requirement Met
             getDegreePlan().setProgressBit(2);
         }
         else if (getDegreePlan().getCompletedCredits() == 0) {
@@ -27,6 +39,7 @@ public class Worksheet {
     public String getClassStanding() {
         int totalCredits = getDegreePlan().getCompletedCredits();
 
+        // Determine seniority based on total credit thresholds
         if (totalCredits >= 90) {
             classStanding = "Senior";
         }
@@ -35,6 +48,7 @@ public class Worksheet {
         }
         else if (totalCredits >= 30) {
             classStanding = "Sophomore";
+            // Set Bit 1: Residence Requirement (Proxy check > 30 credits)
             getDegreePlan().setProgressBit(1);
         }
         else {
@@ -46,21 +60,25 @@ public class Worksheet {
     }
 
     public void updateDegreePlanCoursework(Course course, String grade) {
+        // Prevent adding the same course object twice
         if (degreePlan.getCompletedCoursework().contains(course)) {
             System.out.println("\nERROR: Duplicate course enter!");
             return;
         }
 
+        // Add to completed list and update specific requirement grades
         this.degreePlan.addToCompletedCoursework(course, grade);
         this.degreePlan.updateRequiredCoursework(course, grade);
     }
 
     public void updateDegreePlanCoursework(Course course) {
+        // Validate existence before removal
         if (!degreePlan.getCompletedCoursework().contains(course)) {
             System.out.println("\nERROR: Course cannot be removed!");
             return;
         }
 
+        // Remove from list and reset requirement status to "Required"
         this.degreePlan.removeFromCompletedCoursework(course);
         this.degreePlan.updateRequiredCoursework(course);
     }
@@ -69,7 +87,7 @@ public class Worksheet {
         return this.degreePlan;
     }
 
-    // Check if all bits are set in bitmap
+    // Check if all bits (0-7) are set in the progress bitmap (0xFF is 11111111)
     public boolean getDegreeCompletion() {
         if (degreePlan.getProgressBitmap() != 0xFF) {
             return false;
@@ -82,11 +100,13 @@ public class Worksheet {
         double totalQualityPoints = 0;
         double totalCredits = 0;
 
+        // Iterate through all completed courses to sum quality points
         for(Course course : degreePlan.getCompletedCoursework()) {
             totalQualityPoints += course.getCredits() * getNumericGrade(course.getGrade());
             totalCredits += course.getCredits();
         }
 
+        // Set Bit 0: Total Credit Requirement Met
         if (totalCredits >= getDegreePlan().getDegreeCreditsReq()) {
             getDegreePlan().setProgressBit(0);
         }
@@ -105,14 +125,17 @@ public class Worksheet {
         double freeElectiveCredits = (double) degreePlan.getFreeElectiveCredits();
         double freeElectiveCreditsReq = (double) degreePlan.getFreeElectiveCreditsReq();
 
+        // Calculate "wasted" credits (free electives taken beyond the requirement)
         double creditsNotApplied = freeElectiveCredits - freeElectiveCreditsReq;
 
+        // Subtract excess credits so progress doesn't exceed 100% purely on extra electives
         if (creditsNotApplied > 0) {
             completedCredits -= creditsNotApplied;
         }
 
         int progressPercentage = (int) ((completedCredits/creditReq) * 100);
 
+        // Logic to cap percentage at 99% until all specific requirements (bitmap) are met
         if (degreePlan.getProgressBitmap() == 0xFF ) {
             return 100;
         }
@@ -127,11 +150,14 @@ public class Worksheet {
     public void displayDegreeProgressBar() {
         int degreeProgressPercent = calculateDegreeProgress();
         int percentBarLength = 30;
+        
+        // Calculate how many '#' characters to print based on percentage
         int percentBarStatus = (int) (((double) percentBarLength * (double) degreeProgressPercent) / 100);
         String percentBarStr = "";
 
         ColoredOutput.colorBlack(ColoredOutput.BRIGHT_GREEN_BACKGROUND + "Progress: [" + degreeProgressPercent + "%]");
 
+        // Build the progress bar string
         for (int i = 0; i < percentBarLength; i++) {
             if (i < percentBarStatus) {
                 percentBarStr = percentBarStr.concat("#");
@@ -145,7 +171,9 @@ public class Worksheet {
     }
 
     public void displayWorksheetHeader() {
+        // Recalculate section progress before displaying
         degreePlan.getDegreeSectionProgress();
+        
         System.out.print(ColoredOutput.BRIGHT_CYAN + "Class Standing:    " + getClassStanding() + "\t\t\t");
         System.out.println("Degree: " + degreePlan.getFieldOfStudy());
         System.out.print("Cumulative GPA:    " + String.format("%.3f", calculateGPA()) + "  \t\t\t");
@@ -163,6 +191,7 @@ public class Worksheet {
     private void displayProgressStatus(int index, String str) {
         int progressStatus = degreePlan.getProgressBit(index);
 
+        // Display Green [Y] or Red [N] based on the specific bit status
         switch (progressStatus) {
             case 1 ->  ColoredOutput.colorBrightGreen("[Y]");
             default -> ColoredOutput.colorRed("[N]");
@@ -173,6 +202,7 @@ public class Worksheet {
 
     private void displayDegreeProgressSection() {
         ColoredOutput.colorBrightBlue("________________________________DEGREE PROGRESS________________________________\n");
+        // Print status for all 8 tracked requirements (Bits 0-7)
         displayProgressStatus(0, " 120 credits are required for this degree for graduation\n");
         displayProgressStatus(1, " Minimum 30 credits Taken in Residence\n");
         displayProgressStatus(2, " Minimum 2.0 GPA Requirement\n");
@@ -181,6 +211,7 @@ public class Worksheet {
         displayProgressStatus(5, " Non Program Electives\n");
         displayProgressStatus(6, " Major Requirements (Includes Restricted Electives)\n");
         displayProgressStatus(7, " Free Elective Requirement\n\n");
+        
         displayDegreeProgressBar();
     }
 
@@ -188,11 +219,11 @@ public class Worksheet {
         ColoredOutput.colorBrightBlue("________________________________WORKSHEET INFO________________________________\n");
         displayWorksheetHeader();
         displayDegreeProgressSection();
-
         getDegreePlan().displayPlanInfo();
     }
 
     public boolean isValidLetterGrade(String letterGrade) {
+        // Validate input against standard grade set
         return switch (letterGrade) {
             case "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "F" -> true;
                 default -> false;
@@ -200,6 +231,7 @@ public class Worksheet {
     }
 
     public double getNumericGrade(String letterGrade) {
+        // Convert letter grade to 4.0 scale quality points
         return switch(letterGrade) {
             case "A"  -> 4.0;
             case "A-" -> 3.7;
@@ -216,4 +248,3 @@ public class Worksheet {
         };
     }
 }
-
